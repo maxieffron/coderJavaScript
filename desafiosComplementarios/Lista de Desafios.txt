@@ -1,0 +1,9 @@
+                        LISTA DE DESAFÍOS complementarios
+
+- Desafío Nº1: Crear un algoritmo usando un ciclo.
+
+- Desafío Nº2: Incorporar Arrays.
+
+- Desafío Nº3: Interactuar con HTML.
+
+- Desafío Nº4: Optimizando el proyecto final.
