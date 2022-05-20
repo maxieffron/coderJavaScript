@@ -1,6 +1,6 @@
                         LISTA DE DESAFÍOS
 
-- Desafío Nº1: 
+- Desafío Nº1: Simulador interactivo. Utilización de funciones. 
 
 - Desafío Nº2: 
 
