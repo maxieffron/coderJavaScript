@@ -26,7 +26,7 @@ function validateProduct(prod) {
 }
 
 //Ingresar Medida
-function productSize(prod, medida) {
+function productSize(prod) {
     do {
         if (prod === REL_CIRCULAR) {
             // ** Circular **
@@ -78,12 +78,29 @@ function productSize(prod, medida) {
     } while (medida === 0);
 }
 
-//Ingresar la cantidad
-function productosAcumulados(prod, med, cant) {
+//Ingresar la cantidad de productos
+function cantProducts(sModelo) {
+    do {
+        cantProducts = Number(prompt(`¿Cuántos ${sModelo} desea llevar?`));
+        if (cantProducts <= 0) {
+            alert("Debe llevar al menos un producto seleccionado.");
+        }
+    } while (cantProducts <= 0);
+
+    return cantProducts;
+}
+
+//Actualizar la cantidad de productos
+function productosAcumulados(prod, med) {
+    let cant = 0;
+
     if (prod === REL_CIRCULAR) {
         //Medidas
         switch (med) {
             case CIRCULAR_25:
+                cant = cantProducts(
+                    `relojes circulares de 25cm de diámetro      Precio:$${PRECIO_CIRC_25} `
+                );
                 console.log(
                     "El producto seleccionado es un Reloj Circular de 25cm de diámetro"
                 );
@@ -91,6 +108,9 @@ function productosAcumulados(prod, med, cant) {
                 break;
 
             case CIRCULAR_30:
+                cant = cantProducts(
+                    `relojes circulares de 30cm de diámetro      Precio:$${PRECIO_CIRC_30} `
+                );
                 console.log(
                     "El producto seleccionado es un Reloj Circular de 30cm de diámetro"
                 );
@@ -98,6 +118,9 @@ function productosAcumulados(prod, med, cant) {
                 break;
 
             case CIRCULAR_35:
+                cant = cantProducts(
+                    `relojes circulares de 35cm de diámetro      Precio:$${PRECIO_CIRC_35} `
+                );
                 console.log(
                     "El producto seleccionado es un Reloj Circular de 35cm de diámetro"
                 );
@@ -108,21 +131,28 @@ function productosAcumulados(prod, med, cant) {
                 break;
         }
     } else if (prod === REL_RECTANGULAR) {
-        actualizarCantProductos(med, cant);
+        actualizarCantProdRect(med);
     }
 }
 
-function actualizarCantProductos(med, cant) {
-    //Medidas
+function actualizarCantProdRect(med) {
+    let cant = 0;
 
+    //Medidas
     if (med === REC_20X30) {
         //Reloj Rectangular 20x30 cm
+        cant = cantProducts(
+            `relojes rectangulares de 20x30cm      Precio:$${PRECIO_REC_20x30} `
+        );
         console.log(
             "El producto seleccionado es un Reloj Rectangular de 20x30cm"
         );
         nCantRelRec20_30 = nCantRelRec20_30 + cant;
     } else if (med === REC_30X40) {
         //Reloj Rectangular 30x40 cm
+        cant = cantProducts(
+            `relojes rectangulares de 30x40cm      Precio:$${PRECIO_REC_30x40} `
+        );
         console.log(
             "El producto seleccionado es un Reloj Rectangular de 30x40cm"
         );
@@ -156,8 +186,8 @@ function makeAnOrder() {
         } else {
             bPurchase = true; //Hay al menos un producto en el pedido.
             //Ingresar Medida
-            if (productSize(producto, medida)) {
-                productosAcumulados(producto, medida, cantidad);
+            if (productSize(producto)) {
+                productosAcumulados(producto, medida);
             }
         }
     } while (producto != 0);
@@ -192,53 +222,76 @@ function enterDiscount() {
 
 function calculatePrice(desc) {
     //Primera letra
-    let firstLetter = desc.prototype.substring(0, 1);
+
+    let firstLetter = desc.substr(0, 1);
     //La paso a mayúscula
-    firstLetter = firstLetter.prototype.toUpperCase();
+    firstLetter = firstLetter.toUpperCase();
 
     switch (firstLetter) {
-        case ("A", "B", "C", "D", "E"):
+        case "A":
+        case "B":
+        case "C":
+        case "D":
+        case "E":
             //10% de Descuento
             porcDescuento = 10;
             precioTotal = subTotal(porcDescuento);
             console.log(
-                "Felicitaciones!! Tenes un 10% de descuento sobre el total de tu compra."
+                "Felicitaciones!! Tiene un 10% de descuento sobre el total de su compra."
             );
             break;
 
-        case ("F", "G", "H", "I", "J"):
+        case "F":
+        case "G":
+        case "H":
+        case "I":
+        case "J":
             //20% de Descuento
             porcDescuento = 20;
             precioTotal = subTotal(porcDescuento);
             console.log(
-                "Felicitaciones!! Tenes un 20% de descuento sobre el total de tu compra."
+                "Felicitaciones!! Tiene un 20% de descuento sobre el total de su compra."
             );
             break;
 
-        case ("K", "L", "M", "N", "Ñ", "O"):
+        case "K":
+        case "L":
+        case "M":
+        case "N":
+        case "Ñ":
+        case "O":
             //30% de Descuento
             porcDescuento = 30;
             precioTotal = subTotal(porcDescuento);
             console.log(
-                "Felicitaciones!! Tenes un 30% de descuento sobre el total de tu compra."
+                "Felicitaciones!! Tiene un 30% de descuento sobre el total de su compra."
             );
             break;
 
-        case ("P", "Q", "R", "S", "T"):
+        case "P":
+        case "Q":
+        case "R":
+        case "S":
+        case "T":
             //40% de Descuento
             porcDescuento = 40;
             precioTotal = subTotal(porcDescuento);
             console.log(
-                "Felicitaciones!! Tenes un 40% de descuento sobre el total de tu compra."
+                "Felicitaciones!! Tiene un 40% de descuento sobre el total de su compra."
             );
             break;
 
-        case ("U", "V", "W", "X", "Y", "Z"):
+        case "U":
+        case "V":
+        case "W":
+        case "X":
+        case "Y":
+        case "Z":
             //50% de Descuento
             porcDescuento = 50;
             precioTotal = subTotal(porcDescuento);
             console.log(
-                "Felicitaciones!! Tenes un 50% de descuento sobre el total de tu compra."
+                "Felicitaciones!! Tiene un 50% de descuento sobre el total de su compra."
             );
             break;
         default:
@@ -283,31 +336,31 @@ function armarDetalle() {
     if (nCantRelCirc25 > 0) {
         sMensaje =
             sMensaje +
-            `Reloj Circular de 25cm de diámetro: ${nCantRelCirc25}      Precio Unitario:$${PRECIO_CIRC_25} \n `;
+            `Reloj Circular de 25cm de diámetro: ${nCantRelCirc25}      Precio Unitario:$${PRECIO_CIRC_25} \n`;
     }
 
     if (nCantRelCirc30 > 0) {
         sMensaje =
             sMensaje +
-            `Reloj Circular de 30cm de diámetro: ${nCantRelCirc30}      Precio Unitario:$${PRECIO_CIRC_30} \n `;
+            `Reloj Circular de 30cm de diámetro: ${nCantRelCirc30}      Precio Unitario:$${PRECIO_CIRC_30} \n`;
     }
 
     if (nCantRelCirc35 > 0) {
         sMensaje =
             sMensaje +
-            `Reloj Circular de 35cm de diámetro: ${nCantRelCirc35}      Precio Unitario:$${PRECIO_CIRC_35} \n `;
+            `Reloj Circular de 35cm de diámetro: ${nCantRelCirc35}      Precio Unitario:$${PRECIO_CIRC_35} \n`;
     }
 
     if (nCantRelRec20_30 > 0) {
         sMensaje =
             sMensaje +
-            `Reloj Rectangular de 20x30 cm: ${nCantRelRec20_30}      Precio Unitario:$${PRECIO_REC_20x30} \n `;
+            `Reloj Rectangular de 20x30 cm: ${nCantRelRec20_30}      Precio Unitario:$${PRECIO_REC_20x30} \n`;
     }
 
     if (nCantRelRec30_40 > 0) {
         sMensaje =
             sMensaje +
-            `Reloj Rectangular de 30x40 cm: ${nCantRelRec30_40}      Precio Unitario:$${PRECIO_REC_30x40} \n `;
+            `Reloj Rectangular de 30x40 cm: ${nCantRelRec30_40}      Precio Unitario:$${PRECIO_REC_30x40} \n`;
     }
 
     sMensaje = sMensaje + `Subtotal: $${precioSubTotal} \n`;
@@ -368,7 +421,7 @@ let nCantRelRec30_40 = 0;
 let bPurchase = false; //Hay o no hay compra
 let producto = 0;
 let medida = 0;
-let cantidad = 0;
+//let cantidad = 0;
 let nombre = "";
 let codDescuento = "";
 let precioTotal = 0; //Precio CON descuento
