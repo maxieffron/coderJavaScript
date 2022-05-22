@@ -79,15 +79,18 @@ function productSize(prod) {
 }
 
 //Ingresar la cantidad de productos
-function cantProducts(sModelo) {
+function cantProducts(sModelo, precio) {
+    let nCantRelojes = 0;
     do {
-        cantProducts = Number(prompt(`¿Cuántos ${sModelo} desea llevar?`));
-        if (cantProducts <= 0) {
+        nCantRelojes = Number(
+            prompt(`¿Cuántos ${sModelo} desea llevar? ${precio}`)
+        );
+        if (nCantRelojes <= 0) {
             alert("Debe llevar al menos un producto seleccionado.");
         }
-    } while (cantProducts <= 0);
+    } while (nCantRelojes <= 0);
 
-    return cantProducts;
+    return nCantRelojes;
 }
 
 //Actualizar la cantidad de productos
@@ -99,30 +102,36 @@ function productosAcumulados(prod, med) {
         switch (med) {
             case CIRCULAR_25:
                 cant = cantProducts(
-                    `relojes circulares de 25cm de diámetro      Precio:$${PRECIO_CIRC_25} `
+                    `relojes circulares de 25cm de diámetro`,
+                    `      Precio:$${PRECIO_CIRC_25} `
                 );
                 console.log(
-                    "El producto seleccionado es un Reloj Circular de 25cm de diámetro"
+                    "El producto seleccionado es un Reloj Circular de 25cm de diámetro. Cantidad: " +
+                        cant
                 );
                 nCantRelCirc25 = nCantRelCirc25 + cant;
                 break;
 
             case CIRCULAR_30:
                 cant = cantProducts(
-                    `relojes circulares de 30cm de diámetro      Precio:$${PRECIO_CIRC_30} `
+                    `relojes circulares de 30cm de diámetro`,
+                    `      Precio:$${PRECIO_CIRC_30} `
                 );
                 console.log(
-                    "El producto seleccionado es un Reloj Circular de 30cm de diámetro"
+                    "El producto seleccionado es un Reloj Circular de 30cm de diámetro. Cantidad: " +
+                        cant
                 );
                 nCantRelCirc30 = nCantRelCirc30 + cant;
                 break;
 
             case CIRCULAR_35:
                 cant = cantProducts(
-                    `relojes circulares de 35cm de diámetro      Precio:$${PRECIO_CIRC_35} `
+                    `relojes circulares de 35cm de diámetro`,
+                    `      Precio:$${PRECIO_CIRC_35} `
                 );
                 console.log(
-                    "El producto seleccionado es un Reloj Circular de 35cm de diámetro"
+                    "El producto seleccionado es un Reloj Circular de 35cm de diámetro. Cantidad: " +
+                        cant
                 );
                 nCantRelCirc35 = nCantRelCirc35 + cant;
                 break;
@@ -142,19 +151,23 @@ function actualizarCantProdRect(med) {
     if (med === REC_20X30) {
         //Reloj Rectangular 20x30 cm
         cant = cantProducts(
-            `relojes rectangulares de 20x30cm      Precio:$${PRECIO_REC_20x30} `
+            `relojes rectangulares de 20x30cm`,
+            `      Precio:$${PRECIO_REC_20x30} `
         );
         console.log(
-            "El producto seleccionado es un Reloj Rectangular de 20x30cm"
+            "El producto seleccionado es un Reloj Rectangular de 20x30cm. Cantidad: " +
+                cant
         );
         nCantRelRec20_30 = nCantRelRec20_30 + cant;
     } else if (med === REC_30X40) {
         //Reloj Rectangular 30x40 cm
         cant = cantProducts(
-            `relojes rectangulares de 30x40cm      Precio:$${PRECIO_REC_30x40} `
+            `relojes rectangulares de 30x40cm`,
+            `      Precio:$${PRECIO_REC_30x40} `
         );
         console.log(
-            "El producto seleccionado es un Reloj Rectangular de 30x40cm"
+            "El producto seleccionado es un Reloj Rectangular de 30x40cm. Cantidad: " +
+                cant
         );
         nCantRelRec30_40 = nCantRelRec30_40 + cant;
     }
@@ -162,12 +175,13 @@ function actualizarCantProdRect(med) {
 
 /****** COMIENZA A CORRER EL PROGRAMA  ******/
 function makeAnOrder() {
+    let producto = 0;
     nombre = prompt("¿Cuál es su nombre?");
     console.log(`Hola ${nombre}!! ¿Cómo estás?`);
 
     do {
         //Ingresar Producto
-        let producto = Number(
+        producto = Number(
             prompt(
                 "¿Qué producto desea comprar? \n" +
                     "1 = Reloj Circular \n" +
@@ -188,6 +202,12 @@ function makeAnOrder() {
             //Ingresar Medida
             if (productSize(producto)) {
                 productosAcumulados(producto, medida);
+
+                let bOtherProduct = confirm("¿Desea llevar algo más?");
+                if (!bOtherProduct) {
+                    //Si no quiero llevar más nada, salimos del bucle.
+                    producto = 0;
+                }
             }
         }
     } while (producto != 0);
@@ -378,10 +398,6 @@ function armarDetalle() {
     alert(sMensaje);
 }
 
-// **********************************
-// ****** Comienza el programa ******
-// **********************************
-
 // ****** PRODUCTOS ******
 const REL_CIRCULAR = 1;
 const REL_RECTANGULAR = 2;
@@ -419,7 +435,7 @@ let nCantRelRec30_40 = 0;
 
 //Variables
 let bPurchase = false; //Hay o no hay compra
-let producto = 0;
+//let producto = 0;
 let medida = 0;
 //let cantidad = 0;
 let nombre = "";
@@ -428,6 +444,9 @@ let precioTotal = 0; //Precio CON descuento
 let precioSubTotal = 0; //Precio SIN descuento
 let porcDescuento = 0;
 
+// **********************************
+// ****** Comienza el programa ******
+// **********************************
 makeAnOrder();
 
 if (bPurchase) {
