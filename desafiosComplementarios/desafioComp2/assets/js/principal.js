@@ -8,6 +8,7 @@ let precioSubTotal = 0; //Precio SIN descuento
 let porcDescuento = 0;
 //Aquí se van guardando los productos que se van seleccionando
 let aPedidos = [];
+let aProductos = [];
 
 function main() {
     //Instancia de productos
@@ -18,6 +19,7 @@ function main() {
 
     if (bPurchase) {
         alert("Su compra ha finalizado");
+        console.log(`Su compra ha finalizado`);
 
         //Ingresar Descuento
         let desc = enterDiscount();
@@ -36,7 +38,7 @@ function main() {
 /****** COMIENZA A CORRER EL PROGRAMA  ******/
 function makeAPurchase() {
     let producto = 0;
-    let medida = 0;
+    let idMedida = 0;
     let cantProductos = 0;
 
     nombreCliente = prompt("¿Cuál es su nombre?");
@@ -63,18 +65,17 @@ function makeAPurchase() {
         } else {
             bPurchase = true; //Hay al menos un producto en el pedido.
             //Ingresar Medida
-            if (productSize(producto, medida)) {
-                //Ingresar cantidad del producto seleccionado
-                cantProductos = cantProducts(producto, medida);
+            idMedida = productSize(producto);
+            //Ingresar cantidad del producto seleccionado
+            cantProductos = cantProducts(producto, idMedida);
 
-                //Realizar el pedido
-                makeAnOrder(medida, cantProductos);
+            //Realizar el pedido
+            makeAnOrder(idMedida, cantProductos);
 
-                let bOtherProduct = confirm("¿Desea llevar algo más?");
-                if (!bOtherProduct) {
-                    //Si no quiero llevar más nada, salimos del bucle.
-                    producto = 0;
-                }
+            let bOtherProduct = confirm("¿Desea llevar algo más?");
+            if (!bOtherProduct) {
+                //Si no quiero llevar más nada, salimos del bucle.
+                producto = 0;
             }
         }
     } while (producto != 0);
@@ -82,7 +83,7 @@ function makeAPurchase() {
 
 //Validar el producto ingresado
 function validateProduct(prod) {
-    if (aTiposProducto.some((tipo) => tipo.idProd === prod)) {
+    if (aTiposProducto.some((tipo) => tipo.idTipoProd === prod)) {
         //OK
         return true;
     } else {
@@ -91,12 +92,13 @@ function validateProduct(prod) {
 }
 
 //Ingresar Medida
-function productSize(prod, medida) {
+function productSize(prod) {
+    let med = 0;
     do {
-        if (aTiposProducto[0].idProd === prod) {
+        if (aTiposProducto[0].idTipoProd === prod) {
             // ** Circular **
 
-            medida = Number(
+            med = Number(
                 prompt(
                     "¿En qué tamaño lo quiere llevar?\n" +
                         "1 = Reloj Circular 25cm de diámetro \n" +
@@ -106,20 +108,25 @@ function productSize(prod, medida) {
             );
 
             //Es correcta la medida ingresadda?
-            if (aMedidas.some((elem) => elem.id === medida)) {
-                //Medida Correcta
-                return true;
+            if (aMedidas.some((elem) => elem.idMedida === med)) {
+                console.log(
+                    `Usted ha seleccionado el ${
+                        aProductos[med - 1].nombre
+                    } de ${aMedidas[med - 1].descripcion}`
+                );
+                //Medida válida
+                return med;
             } else {
                 alert(
                     "La medida ingresada no es correcta. Deberá ingresarla nuevamente."
                 );
-                medida = 0;
+                med = 0;
             }
         } else {
             //------------------------------------------------
             // ** Rectangular **
 
-            medida = Number(
+            med = Number(
                 prompt(
                     "¿En qué tamaño lo quiere llevar?\n" +
                         "4 =  Reloj Rectangular de 20x30cm \n" +
@@ -128,30 +135,34 @@ function productSize(prod, medida) {
             );
 
             //Es correcta la medida ingresadda?
-            if (aMedidas.some((elem) => elem.id === medida)) {
-                //Medida Correcta
-                return true;
+            if (aMedidas.some((elem) => elem.idMedida === med)) {
+                console.log(
+                    `Usted ha seleccionado el ${
+                        aProductos[med - 1].nombre
+                    } de ${aMedidas[med - 1].descripcion}`
+                );
+                //Medida válida
+                return med;
             } else {
                 alert(
                     "La medida ingresada no es correcta. Deberá ingresarla nuevamente."
                 );
-                medida = 0;
+                med = 0;
             }
         }
-    } while (medida === 0);
+    } while (med === 0);
 }
 
 //Ingresar la cantidad de productos
-function cantProducts(prod, med) {
+function cantProducts(prod, idMedida) {
     let nCantRelojes = 0;
     do {
         nCantRelojes = Number(
             prompt(
-                `Producto seleccionado: ${
-                    aTiposProducto[prod - 1].tipoProducto
-                }\n
-                Medida: ${aMedidas[med - 1].medida}\n
-                Precio: $${aMedidas[med - 1].precio}\n\n
+                `Producto seleccionado:\n
+                ${aTiposProducto[prod - 1].tipoProducto}\n
+                Medida: ${aMedidas[idMedida - 1].descripcion}\n
+                Precio: $${aMedidas[idMedida - 1].precio}\n
                 ¿Qué cantidad desea llevar?
                 `
             )
@@ -162,61 +173,48 @@ function cantProducts(prod, med) {
         }
     } while (nCantRelojes <= 0);
 
+    console.log(`Usted ha decidido llevar ${nCantRelojes} relojes`);
     return nCantRelojes;
 }
 
-function makeAnOrder(med, cantProd) {
+function makeAnOrder(idMedida, cantProd) {
     let item = 0;
+    let searchedProd = null;
 
     //Antes de guardar en el array un nuevo item, veremos si ya existe en mi pedido.
     if (aPedidos.length > 0) {
-        const searchedProd = aPedidos.find(
-            (elem) => elem.item.producto.aMedidas.id === med
+        //El idMedida coincide con el Id del Producto
+        searchedProd = aPedidos.find(
+            (elem) => elem.producto.idProducto === idMedida
         );
     }
 
-    if (searchedProd == undefined || aPedidos.length === 0) {
-        // ** Si el producto no existe, lo creamos **
-        //Guardar en un Array los productos que se van pidiendo.
-        switch (med) {
-            case CIRCULAR_25:
-                //Circular de 25 cm de diámetro
-                item = new Items(getIdItem(), relCircular25, cantProd);
-                break;
-            case CIRCULAR_30:
-                //Circular de 30 cm de diámetro
-                item = new Items(getIdItem(), relCircular30, cantProd);
-                break;
-            case CIRCULAR_35:
-                //Circular de 35 cm de diámetro
-                item = new Items(getIdItem(), relCircular35, cantProd);
-                break;
-            case REC_20X30:
-                //Rectangular de 20x30 cm
-                item = new Items(getIdItem(), relRectangular20x30, cantProd);
-                break;
-            case REC_30X40:
-                //Rectangular de 30x40 cm
-                item = new Items(getIdItem(), relRectangular30x40, cantProd);
-                break;
-            default:
-                break;
-        }
-
+    if (
+        aPedidos.length === 0 ||
+        searchedProd === undefined ||
+        searchedProd === null
+    ) {
+        //Creamos un nuevo ítem (Producto)
+        item = new Items(getIdItem(), aProductos[idMedida - 1], cantProd);
         //Guardar en un Array los productos que se van pidiendo.
         aPedidos.push(item);
+
+        console.log(
+            `Usted ha añadido a su carrito de compras el producto seleccionado`
+        );
     } else {
         // ** Si el producto existe, actualizamos la cantidad de productos pedidos **
-        console.log(searchedProd);
+        aPedidos[searchedProd.idItem - 1].cantidad =
+            aPedidos[searchedProd.idItem - 1].cantidad + cantProd;
     }
 }
 
 //Obtenemos un nuevo id por cada item generado en el pedido
 function getIdItem() {
-    if (Items.length === 0) {
+    if (aPedidos.length === 0) {
         return 1;
     } else {
-        const ultId = Items[Items.length - 1]; //Esto me guarda el último item del array
+        const ultId = aPedidos[aPedidos.length - 1]; //Esto me guarda el último item del array
         return ultId.idItem + 1; //Le sumo 1 al último id
     }
 }
@@ -324,10 +322,54 @@ function calculatePrice(desc) {
             break;
         default:
             //No tenes descuento
+            console.log("Esta compra no contiene ningún descuento.");
             porcDescuento = 0;
             precioTotal = subTotal(porcDescuento);
             break;
     }
+}
+
+function subTotal(porcD) {
+    let descAplicado = 0;
+
+    for (const products of aPedidos) {
+        //Total sin el descuento
+        precioSubTotal =
+            precioSubTotal + products.cantidad * products.producto.precio;
+    }
+
+    //Aplicando descuento...
+    descAplicado = precioSubTotal - (precioSubTotal / 100) * porcD;
+
+    //Devolvemos el importe con el descuento ya aplicado.
+    return descAplicado;
+}
+
+//Armado del detalle de la compra
+function armarDetalle() {
+    let sMensaje = "";
+
+    sMensaje = `${nombreCliente}, el detalle de su compra es el siguiente: \n`;
+
+    for (const detalle of aPedidos) {
+        sMensaje =
+            sMensaje +
+            `${detalle.producto.nombre} de ${detalle.producto.descripcion}      Cantidad: ${detalle.cantidad}      Precio Unitario: $${detalle.producto.precio}\n`;
+    }
+
+    sMensaje = sMensaje + `Subtotal: $${precioSubTotal} \n`;
+
+    if (porcDescuento != 0) {
+        sMensaje = sMensaje + `Descuento aplicado: ${porcDescuento}% \n`;
+    }
+
+    sMensaje = sMensaje + `Total: $${precioTotal} \n`;
+
+    sMensaje =
+        sMensaje + `****** MUCHAS GRACIAS POR CONFIAR EN NOSOTROS ******`;
+
+    //Mostramos el ticket por pantalla
+    alert(sMensaje);
 }
 
 //Comienzo
