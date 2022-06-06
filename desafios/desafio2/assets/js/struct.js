@@ -134,4 +134,47 @@ function uploadProducts() {
         relRectangular20x30,
         relRectangular30x40,
     ];
+
+    //Cargamos los productos en la grilla
+    let container_Productos = document.getElementById("container-products");
+
+    container_Productos.innerHTML = `<h1>Dalet Design</h1>
+    <ul class="products-title-table">
+        <li class="products-title">Id</li>
+        <li class="products-title">Nombre</li>
+        <li class="products-title">Descripción</li>
+        <li class="products-title">Medida</li>
+        <li class="products-title">Precio</li>
+    </ul>`;
+
+    for (let prod of aProductos) {
+        //id
+        let li_IdProducto = prod.idProducto;
+
+        //nombre
+        let li_NomProducto = prod.nombre;
+
+        //Descripción
+        let li_DescripProducto = prod.descripcion;
+
+        //Medida
+        let li_MedidaProducto = prod.medida;
+
+        //Precio
+        let li_PrecioProducto = prod.precio;
+
+        container_Productos.innerHTML =
+            container_Productos.innerHTML +
+            `
+                <ul class="products-list">
+                    <li id="idProd" class="products">${li_IdProducto}</li>
+                    <li id="nombreProd" class="products">${li_NomProducto}</li>
+                    <li id="descriProd" class="products">${li_DescripProducto}</li>
+                    <li id="medidaProd" class="products">${li_MedidaProducto}</li>
+                    <li id="precioProd" class="products">${li_PrecioProducto}</li>
+                </ul>
+        `;
+    }
 }
+
+uploadProducts();
