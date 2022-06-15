@@ -34,8 +34,7 @@ function loadingGrid() {
     //Cargamos los productos en la grilla
     let container_Productos = document.getElementById("container-products");
 
-    //let nombreCliente = prompt(`Hola!! \n¿Cuál es su nombre?`);
-    let nombreCliente = "Homero Simpson";
+    let nombreCliente = prompt(`Hola!! \n¿Cuál es su nombre?`);
     container_Productos.innerHTML += `
     <h2>Hola <span>${nombreCliente}!!</span></h2>`;
 
