@@ -19,10 +19,12 @@
     width: 65%;
     //height: 400px;
     height: auto;
-
+    h2 {
+        text-align: center;
+    }
     span {
         font-weight: 600;
-        color: $secondary-color;
+        color: $tertiary-color;
         text-transform: uppercase;
     }
     //border: 1px solid blue;
@@ -41,58 +43,74 @@
     //border: 1px solid red;
 }
 
-//Nombre de los campos del producto (Items de la Lista)
-.products-title {
-    //width: 120px;
-    width: 110px;
-
-    background-color: $tertiary-color;
-    //margin: 0 auto;
-    margin: 0 4px;
-    text-align: center;
-    text-transform: uppercase;
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 14px;
-    padding: 10px 0;
-}
-
-//Lista de Productos
 .products-list {
-    width: 100%;
-    height: 40px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: center;
-    list-style: none;
-    //padding-top: 20px;
-    //border: 1px solid red;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 100%; //550px;
 }
 
-//Items de Productos
+//Productos
 .products {
-    //width: 120px;
-    width: 110px;
+    width: 250px;
+    height: 310px;
+    //padding-top: 20px;
+    list-style-type: none;
+    //border: 1px solid aqua;
+}
 
-    //background-color: $primary-color;
-    //margin: 0 auto;
-    margin: 0 4px;
-    text-align: center;
-    font-size: 14px;
-    color: $font_color-secondary;
-    padding: 10px 0;
+//Contenedor de imághenes
+.cont-images {
+    width: 100%;
+    height: 55%; //200px;;
+    border: 2px solid $tertiary-color;
+}
+
+.img-Product {
+    display: block;
+    //margin-left: auto;
+    //margin-right: auto;
+    margin: auto auto;
+    padding-top: 10px;
+    width: 80%;
+    height: 100%;
+}
+
+//Contenedor de la información del productos
+.cont-info-prod {
+    width: 100%;
+    height: 45%;
+    border: 2px solid $primary-color;
+    border-top: 0;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    padding-top: 4px;
+    h3 {
+        text-align: center;
+        font-size: 16px;
+    }
+}
+//Precio
+#h3-price {
+    color: $tertiary-color;
+    font-weight: 600;
+    font-size: 20px;
 }
 
 //Botón "Comprar"
 .btn-Buy {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     border-radius: 3px;
     background-color: $secondary-color;
     color: $font_color-primary;
     font-weight: 600;
     text-align: center;
-    font-size: 20px;
-    padding: 4px;
+    font-size: 18px;
+    padding: 6px;
 }
 
 // ****** CARRITO DE COMPRAS ******

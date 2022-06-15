@@ -6,105 +6,45 @@
 
 //-------------------------------------------------------
 
-//Función que crea una instancia de cada producto
-function uploadProducts() {
-    // ****** PRODUCTOS ******
-    const relCircular25 = new Productos(
-        CIRCULAR_25,
-        aTiposProducto[0].tipoProducto,
-        aMedidas[0].descripcion,
-        aMedidas[0].medida,
-        aMedidas[0].precio
-    );
-
-    const relCircular30 = new Productos(
-        CIRCULAR_30,
-        aTiposProducto[0].tipoProducto,
-        aMedidas[1].descripcion,
-        aMedidas[1].medida,
-        aMedidas[1].precio
-    );
-
-    const relCircular35 = new Productos(
-        CIRCULAR_35,
-        aTiposProducto[0].tipoProducto,
-        aMedidas[2].descripcion,
-        aMedidas[2].medida,
-        aMedidas[2].precio
-    );
-
-    const relRectangular20x30 = new Productos(
-        REC_20X30,
-        aTiposProducto[1].tipoProducto,
-        aMedidas[3].descripcion,
-        aMedidas[3].medida,
-        aMedidas[3].precio
-    );
-
-    const relRectangular30x40 = new Productos(
-        REC_30X40,
-        aTiposProducto[1].tipoProducto,
-        aMedidas[4].descripcion,
-        aMedidas[4].medida,
-        aMedidas[4].precio
-    );
-
-    aProductos = [
-        relCircular25,
-        relCircular30,
-        relCircular35,
-        relRectangular20x30,
-        relRectangular30x40,
-    ];
+function loadingProducts() {
+    for (const prod of products) {
+        //Almacenamos todos los productos en un array
+        aProductos.push(new Productos(prod));
+    }
 }
+
+//Llenamos la grilla con los productos de forma dinámica
 function loadingGrid() {
     //Cargamos los productos en la grilla
     let container_Productos = document.getElementById("container-products");
 
-    let nombreCliente = prompt(`Hola!! \n¿Cuál es su nombre?`);
+    //let nombreCliente = prompt(`Hola!! \n¿Cuál es su nombre?`);
+    let nombreCliente = "Homero Simpson";
+    container_Productos.innerHTML += `
+    <h2>Hola <span>${nombreCliente}!!</span></h2>`;
 
-    container_Productos.innerHTML =
-        container_Productos.innerHTML +
-        `
-    <h2>Hola <span>${nombreCliente}!!</span></h2>
-    <ul class="products-title-table">
-        <li class="products-title">Id</li>
-        <li class="products-title">Nombre</li>
-        <li class="products-title">Descripción</li>
-        <li class="products-title">Medida</li>
-        <li class="products-title">Precio</li>
-        
-    </ul>`;
+    //Creamos una lista
+    let lista = document.createElement("ul");
+    lista.className = "products-list";
+    container_Productos.appendChild(lista);
 
     for (let prod of aProductos) {
-        //id
-        let li_IdProducto = prod.idProducto;
+        lista.innerHTML += ` 
+        
+            <li id="idProd" class="products">
 
-        //nombre
-        let li_NomProducto = prod.nombre;
+                <div class="cont-images">
+                    <img class="img-Product" src="${prod.imagen}" alt="${prod.nombre}">
+                </div>
 
-        //Descripción
-        let li_DescripProducto = prod.descripcion;
+                <div class="cont-info-prod">
+                    <h3>${prod.nombre}</h3>
+                    <h3>${prod.descripcion}</h3>
+                    <h3 id="h3-price">$${prod.precio}</h3>
+                    <button onclick="getIdProd(this)" id=buy${prod.idProducto} class="btn-Buy">Comprar</button>
+                </div>
 
-        //Medida
-        let li_MedidaProducto = prod.medida;
-
-        //Precio
-        let li_PrecioProducto = prod.precio;
-
-        container_Productos.innerHTML =
-            container_Productos.innerHTML +
-            `
-                <ul class="products-list">
-                    <li id="idProd" class="products">${li_IdProducto}</li>
-                    <li id="nombreProd" class="products">${li_NomProducto}</li>
-                    <li id="descriProd" class="products">${li_DescripProducto}</li>
-                    <li id="medidaProd" class="products">${li_MedidaProducto}</li>
-                    <li id="precioProd" class="products">$${li_PrecioProducto}</li>
-                    <li class="products"> <button onclick="getIdProd(this)" id=buy${li_IdProducto} class="btn-Buy">Comprar</button></li>
-                    
-                </ul>
-        `;
+            </li>`;
     }
 }
 
@@ -120,7 +60,8 @@ function getIdProd(btnComprar) {
 
 function getProduct(idElegido) {
     if (aProductos.some((elem) => elem.idProducto === Number(idElegido))) {
-        //Producto Encontrado
+        //Producto Encontrado. Lo agregamos al localStorage
+        localStorage.setItem(idElegido, aProductos[idElegido - 1]);
 
         //Agregamos el producto al carrito
         addToCart(aProductos[idElegido - 1], idElegido);
@@ -181,9 +122,9 @@ function getIdBtn(botonBuy, bSuma) {
 
 function main() {
     //Carga de Productos
-    window.addEventListener("load", uploadProducts());
+    window.addEventListener("load", loadingProducts());
 
-    //Llenamos la grilla con los productos
+    //Llenamos la grilla con los productos de forma dinámica
     loadingGrid();
 }
 

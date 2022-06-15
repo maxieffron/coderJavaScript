@@ -25,13 +25,16 @@ const REC_30X40 = 5;
  ********************
  */
 
+/*
 class TiposProducto {
     constructor(idTipoProd, tipoProducto) {
         this.idTipoProd = idTipoProd;
         this.tipoProducto = tipoProducto;
     }
 }
+*/
 
+/*
 class medidas {
     constructor(idMedida, medida, descripcion, precio) {
         this.idMedida = idMedida;
@@ -40,14 +43,28 @@ class medidas {
         this.precio = precio;
     }
 }
-
+*/
+//Array de Productos
+let aProductos = [];
 class Productos {
+    /*
     constructor(idProducto, nombre, descripcion, medida, precio) {
         this.idProducto = idProducto;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.medida = medida;
         this.precio = precio;
+    }
+    */
+    constructor(obj) {
+        this.idProducto = obj.idProducto;
+        this.nombre = obj.nombre;
+        this.categoria = obj.categoria;
+        this.tipoProd = obj.tipoProd;
+        this.descripcion = obj.descripcion;
+        this.medida = obj.medida;
+        this.imagen = obj.imagen;
+        this.precio = obj.precio;
     }
 }
 
@@ -69,6 +86,7 @@ class Pedidos {
 */
 //-----------------------------------------------------------------------
 
+/*
 // ****** TIPOS DE PRODUCTO ******
 const tipoProdCirc = new TiposProducto(1, "Reloj Circular");
 const tipoProdRec = new TiposProducto(2, "Reloj Rectangular");
@@ -82,6 +100,4 @@ const med20x30 = new medidas(4, "20x30", "20x30 cm", 500);
 const med30x40 = new medidas(5, "30x40", "30x40 cm", 800);
 const aMedidas = [med25, med30, med35, med20x30, med30x40];
 //-----------------------------------------------------------------------
-
-//Array de Productos
-let aProductos = [];
+*/
