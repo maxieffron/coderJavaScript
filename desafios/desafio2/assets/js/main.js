@@ -13,6 +13,22 @@ function loadingProducts() {
     }
 }
 
+function loadingCart() {
+    //Verificamos si al recargar la página ya habían productos cargados en el carrito. De haberlos, los agregamos
+
+    if (!localStorage.length == 0) {
+        for (let ind = 0; localStorage.length; ind++) {
+            const clave = localStorage.key(ind);
+            let loadProducts = localStorage.getItem(clave);
+            loadProducts = JSON.parse(loadProducts);
+            //Aquí cargamos dinámicamente en el carrito los productos que ya estaban
+            //almacenados en el storage.
+
+            addToCart(loadProducts, loadProducts.idProducto);
+        }
+    }
+}
+
 //Llenamos la grilla con los productos de forma dinámica
 function loadingGrid() {
     //Cargamos los productos en la grilla
@@ -61,14 +77,14 @@ function getIdProd(btnComprar) {
 function getProduct(idElegido) {
     if (aProductos.some((elem) => elem.idProducto === Number(idElegido))) {
         //Verificamos si este producto ya fue agregado al carrito
-        if (sessionStorage.getItem(idElegido) === null) {
+        if (localStorage.getItem(idElegido) === null) {
+            //Le agregamos al objeto el atributo Cantidad de Productos
+            const addedProduct = { ...aProductos[idElegido - 1], cantidad: 1 };
+
             //Producto Encontrado. Lo agregamos al localStorage
-            sessionStorage.setItem(
-                idElegido,
-                JSON.stringify(aProductos[idElegido - 1])
-            );
+            localStorage.setItem(idElegido, JSON.stringify(addedProduct));
             //Agregamos el producto al carrito
-            addToCart(aProductos[idElegido - 1], idElegido);
+            addToCart(addedProduct, idElegido);
         } else {
             alert(
                 `El producto ${
@@ -98,6 +114,7 @@ function addToCart(prodComprado, idElegido) {
     //Creamos el div que contiene la info del producto y la foto
     let buy = document.createElement("div");
     buy.className = "container-selected-products";
+    buy.setAttribute("id", `producto${idElegido}`);
     shoppingCart.appendChild(buy);
 
     //Creamos el div de la foto
@@ -111,7 +128,7 @@ function addToCart(prodComprado, idElegido) {
     buy.innerHTML += `
     <div class="list-selected-product">
 
-        <button id="btn-remove${idElegido}" class="btnRemoveItem">X</button>
+        <button id="btn-remove${idElegido}" class="btnRemoveItem" onclick="removeProduct(this)">X</button>
         <div class="selected-product">
             <h3 class = "cart-name"> <span>Nombre:</span> ${prodComprado.nombre} </h3>
             <h3 class="cart-description"><span>Descripción:</span> ${prodComprado.descripcion} </h3>
@@ -137,11 +154,15 @@ function addToCart(prodComprado, idElegido) {
 function getIdBtn(botonBuy, bSuma) {
     let contador; // = document.getElementById("cant-products");
     let cant = 0; // contador.innerText;
-    let idBoton = botonBuy.id.toString();
-    idBoton = Number(idBoton.substr(7, idBoton.length - 1));
+    let idBotonBuy = botonBuy.id.toString();
+    idBotonBuy = Number(idBotonBuy.substr(7, idBotonBuy.length - 1));
 
-    contador = document.getElementById(`cant-products${idBoton}`);
+    contador = document.getElementById(`cant-products${idBotonBuy}`);
     cant = contador.innerText;
+
+    //Transformamos el string en un objeto para poder actualizar la cantidad
+    let actualProduct = localStorage.getItem(idBotonBuy);
+    actualProduct = JSON.parse(actualProduct);
 
     if (bSuma) {
         //Es una suma
@@ -158,6 +179,20 @@ function getIdBtn(botonBuy, bSuma) {
             contador.innerText = cant;
         }
     }
+    actualProduct.cantidad = cant;
+    //Actualizamos el localStorage
+    localStorage.setItem(idBotonBuy, JSON.stringify(actualProduct));
+}
+
+function removeProduct(btnRemoveP) {
+    //Función que elimina del localStorage y de HTML un ítem del carrito de compras.
+
+    let idBotonRemove = btnRemoveP.id;
+    idBotonRemove = idBotonRemove.substr(10, idBotonRemove.length - 1);
+    localStorage.removeItem(idBotonRemove);
+    //Borramos el producto del DOM
+    const removeProd = document.getElementById(`producto${idBotonRemove}`);
+    removeProd.remove();
 }
 
 function main() {
@@ -166,6 +201,9 @@ function main() {
 
     //Llenamos la grilla con los productos de forma dinámica
     loadingGrid();
+
+    //Verificamos si al recargar la página ya habían productos cargados en el carrito. De haberlos, los agregamos
+    loadingCart();
 }
 
 main();
