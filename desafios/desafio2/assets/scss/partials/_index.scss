@@ -74,7 +74,7 @@
     //margin-right: auto;
     margin: auto auto;
     padding-top: 10px;
-    width: 80%;
+    width: 70%;
     height: 100%;
 }
 
@@ -116,74 +116,91 @@
 // ****** CARRITO DE COMPRAS ******
 
 #container-shopping-cart {
-    width: 35%;
-    height: 550px; //100%;
-    display: flex;
+    /*display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    */
+    width: 35%;
+    min-height: 600px;
+    height: 100%;
     border: 2px solid $font_color-secondary;
     border-radius: 6px;
 
     h2 {
-        height: 10%;
-        padding-top: 10px;
-        text-transform: uppercase;
-        text-align: center;
-        //font-size: 26px;
+        color: $secondary-color;
         margin: 0 auto;
-    }
-}
-
-//Carrito de compras
-#cart-products {
-    width: 100%;
-    height: 90%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    //background-color: aquamarine;
-}
-
-//Foto del Producto seleccionado
-.selected-product-photo {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    //background-color: $secondary-color;
-    width: 40%;
-    height: 35%;
-    background-color: beige;
-
-    h3 {
-        display: inline-block;
-        color: $font_color-secondary;
+        padding-top: 10px;
         text-align: center;
-        margin: auto auto;
+        //text-transform: uppercase;
+        //font-size: 26px;
     }
 }
 
-//Lista con los Datos del producto seleccionado
-.container-selected-products {
-    width: 60%;
-    height: 35%;
-    border: 1px solid $primary-color;
-    //background-color: $secondary-color;
+//Botón X para quitar el produucto del carrito de compras
+.btnRemoveItem {
+    display: inline;
+    /*position: relative;
+    top: 10px;
+    left: 88%;
+    */
+    margin-top: 2%;
+    margin-left: 90%;
 
-    h3 {
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    color: $secondary-color;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    border: none;
+    //background-color: black;
+}
+
+//Contenedor con la foto y los Datos del producto
+.container-selected-products {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 98%;
+    height: 35%;
+    border: 3px solid $tertiary-color;
+    border-radius: 3px;
+    margin: 5px auto;
+
+    /*h3 {
         display: inline-block;
         //text-align: center;
         margin: 0 auto;
+    }*/
+}
+
+//Contenedor de la Foto del Producto
+.selected-product-photo {
+    /*display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    */
+    //background-color: $secondary-color;
+    width: 30%;
+    height: 100%;
+    img {
+        display: block;
+        margin: auto auto;
+        width: 100%;
+        height: auto;
     }
 }
 
+//Contenedor de la Info del Producto
 .list-selected-product {
-    //width: 50%;
-    //height: 100%;
+    width: 70%;
+    height: 100%;
     list-style: none;
     margin: 0 auto;
 }
 
-//Información del produto seleccionado
+//Información del produto
 .selected-product {
     //display: inline-block;
     width: 100%;
@@ -195,10 +212,13 @@
 .cart-name,
 .cart-description,
 .cart-price {
-    h3 {
-        color: $font_color-secondary;
-        padding-left: 10px;
-        font-weight: 600;
+    color: $tertiary-color;
+    font-size: 16px;
+    padding-left: 10px;
+    font-weight: 600;
+
+    span {
+        color: $primary-color;
     }
 }
 
@@ -216,10 +236,13 @@
     border-radius: 6px;
     padding: 5px;
     margin: 0 auto;
+    margin-bottom: 10px;
 
     //Contador del carrito
     h3 {
         color: $font_color-primary;
+        display: inline-block;
+        margin: 0 auto;
     }
 }
 

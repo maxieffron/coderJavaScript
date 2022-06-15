@@ -60,31 +60,68 @@ function getIdProd(btnComprar) {
 
 function getProduct(idElegido) {
     if (aProductos.some((elem) => elem.idProducto === Number(idElegido))) {
-        //Producto Encontrado. Lo agregamos al localStorage
-        localStorage.setItem(idElegido, aProductos[idElegido - 1]);
-
-        //Agregamos el producto al carrito
-        addToCart(aProductos[idElegido - 1], idElegido);
+        //Verificamos si este producto ya fue agregado al carrito
+        if (sessionStorage.getItem(toString(idElegido)) == null) {
+            //Producto Encontrado. Lo agregamos al localStorage
+            sessionStorage.setItem(idElegido, aProductos[idElegido - 1]);
+            //Agregamos el producto al carrito
+            addToCart(aProductos[idElegido - 1], idElegido);
+        } else {
+            alert(
+                `El producto ${
+                    aProductos[idElegido - 1].nombre
+                } ya fue agregado al carrito de compras`
+            );
+        }
     }
 }
 
 //Agregamos el producto al carrito
 function addToCart(prodComprado, idElegido) {
-    let buy = document.querySelector(".container-selected-products");
+    let shoppingCart = document.getElementById("container-shopping-cart");
 
-    buy.innerHTML = `
-    <ul class="list-selected-product">
-    <li class="selected-product cart-name"> <h3>Nombre: ${prodComprado.nombre} </h3></li>
-    <li class="selected-product cart-description"> <h3>Descripción: ${prodComprado.descripcion} </h3></li>
-    <li class="selected-product cart-price"> <h3>Precio: $${prodComprado.precio}</h3></li>
-    <li class="selected-product">
+    //Este es el div que va a contener la foto + info del producto
+    /*let cart = document.createElement("div");
+    cart.setAttribute("id", "cart-products");
+    shoppingCart.appendChild(cart);
+    */
+
+    //Adherimos el div de la foto
+    /*let div_photo_product = document.createElement("div");
+    div_photo_product.className = "selected-product-photo";
+    cart.appendChild(div_photo_product);
+    */
+
+    //Creamos el div que contiene la info del producto y la foto
+    let buy = document.createElement("div");
+    buy.className = "container-selected-products";
+    shoppingCart.appendChild(buy);
+
+    //Creamos el div de la foto
+    let div_photo_product = document.createElement("div");
+    div_photo_product.className = "selected-product-photo";
+    buy.appendChild(div_photo_product);
+    div_photo_product.innerHTML = `<img id="cart-photo${idElegido}" src="${prodComprado.imagen}"> </img>`;
+
+    //buy = document.querySelector(".container-selected-products");
+
+    buy.innerHTML += `
+    <div class="list-selected-product">
+
+        <button id="btn-remove${idElegido}" class="btnRemoveItem">X</button>
+        <div class="selected-product">
+            <h3 class = "cart-name"> <span>Nombre:</span> ${prodComprado.nombre} </h3>
+            <h3 class="cart-description"><span>Descripción:</span> ${prodComprado.descripcion} </h3>
+            <h3 class="cart-price"><span>Precio:</span> $${prodComprado.precio}</h3>
+        </div>
+    
         <div class="cart-buttons">
             <button onclick="getIdBtn(this,false)" id="btn-sus${idElegido}" class="btn-sustract">-</button> 
             <h3 id="cant-products${idElegido}"> 1 </h3> 
             <button onclick="getIdBtn(this,true)" id="btn-add${idElegido}" class="btn-add">+</button>
         </div>
-    </li>
-</ul>`;
+    
+    </div>`;
 
     /*
     boton_mas = document.getElementById(`btn-add${idElegido}`);
