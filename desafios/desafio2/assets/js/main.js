@@ -61,9 +61,12 @@ function getIdProd(btnComprar) {
 function getProduct(idElegido) {
     if (aProductos.some((elem) => elem.idProducto === Number(idElegido))) {
         //Verificamos si este producto ya fue agregado al carrito
-        if (sessionStorage.getItem(toString(idElegido)) == null) {
+        if (sessionStorage.getItem(idElegido) === null) {
             //Producto Encontrado. Lo agregamos al localStorage
-            sessionStorage.setItem(idElegido, aProductos[idElegido - 1]);
+            sessionStorage.setItem(
+                idElegido,
+                JSON.stringify(aProductos[idElegido - 1])
+            );
             //Agregamos el producto al carrito
             addToCart(aProductos[idElegido - 1], idElegido);
         } else {
