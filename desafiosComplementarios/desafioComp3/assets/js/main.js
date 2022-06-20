@@ -233,7 +233,7 @@ function buyActive() {
 function finishedPurchase() {
     let button_Checkout = document.getElementById("btn-checkout");
     button_Checkout.addEventListener("click", () => {
-        Swal.fire("Any fool can use a computer");
+        Swal.fire("Gracias por su compra!!");
 
         /*
         //Confirmamos o no la compra

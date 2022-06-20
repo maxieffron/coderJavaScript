@@ -19,5 +19,6 @@
         "HTML (EEx)",
         "HTML (Eex)",
         "plist"
-    ]
+    ],
+    "liveServer.settings.port": 5502
 }
