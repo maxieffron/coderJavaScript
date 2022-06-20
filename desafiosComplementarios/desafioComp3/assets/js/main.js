@@ -233,7 +233,7 @@ function buyActive() {
 function finishedPurchase() {
     let button_Checkout = document.getElementById("btn-checkout");
     button_Checkout.addEventListener("click", () => {
-        Swal.fire("Gracias por su compra!!");
+        Swal.fire(`Compra finalizada.\n Gracias por elegirnos!!`);
 
         /*
         //Confirmamos o no la compra
