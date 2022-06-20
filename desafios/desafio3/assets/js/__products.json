@@ -1,0 +1,39 @@
+{
+    "productos": [
+        {
+            "idProducto": 1,
+            "nombre": "Reloj Circular",
+            "descripcion": "25 cm de diámetro",
+            "medida": "25",
+            "precio": 100
+        },
+        {
+            "idProducto": 2,
+            "nombre": "Reloj Circular",
+            "descripcion": "30 cm de diámetro",
+            "medida": "30",
+            "precio": 200
+        },
+        {
+            "idProducto": 3,
+            "nombre": "Reloj Circular",
+            "descripcion": "35 cm de diámetro",
+            "medida": "35",
+            "precio": 300
+        },
+        {
+            "idProducto": 4,
+            "nombre": "Reloj Rectangular",
+            "descripcion": "20x30 cm",
+            "medida": "20x30",
+            "precio": 500
+        },
+        {
+            "idProducto": 5,
+            "nombre": "Reloj Rectangular",
+            "descripcion": "30x40 cm",
+            "medida": "30x40",
+            "precio": 800
+        }
+    ]
+}
