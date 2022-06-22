@@ -8,14 +8,15 @@
 
 function loadingProducts() {
     for (const prod of products) {
-        //Almacenamos todos los productos en un array
+        //Cargamos todos los productos en un array
         aProductos.push(new Productos(prod));
     }
 }
 
 function loadingCart() {
-    //Verificamos si al recargar la página ya habían productos cargados en el carrito. De haberlos, los agregamos
-    debugger;
+    /************************************************************************************************************
+Verificamos si al recargar la página ya habían productos cargados en el carrito. De haberlos, los agregamos
+*************************************************************************************************************/
     if (!localStorage.length == 0) {
         for (let ind = 0; localStorage.length; ind++) {
             const clave = localStorage.key(ind);
@@ -29,8 +30,11 @@ function loadingCart() {
     }
 }
 
-//Llenamos la grilla con los productos de forma dinámica
 function loadingGrid() {
+    /************************************************************************************************************
+Llenamos la grilla con los productos de forma dinámica
+*************************************************************************************************************/
+
     //Cargamos los productos en la grilla
     let container_Productos = document.getElementById(
         "container-shopping-products"
@@ -41,6 +45,7 @@ function loadingGrid() {
     lista.className = "products-list";
     container_Productos.appendChild(lista);
 
+    //Se recorre todo el array de productos y se van agregando a la lista de productos en pantalla
     for (let prod of aProductos) {
         lista.innerHTML += ` 
         
@@ -61,8 +66,11 @@ function loadingGrid() {
     }
 }
 
-//Con esto, obtengo el ID del botón "Comprar"
 function getIdProd(btnComprar) {
+    /************************************************************
+     ****** Con esto, se obteine el ID del botón "Comprar" ******
+     ************************************************************/
+
     //Nos guardamos el Id del Producto
     let idElegido = btnComprar.id.toString();
     idElegido = idElegido.substr(3, idElegido.length - 1);
@@ -72,20 +80,34 @@ function getIdProd(btnComprar) {
 }
 
 function getProduct(idElegido) {
+    /***************************************************************************
+     ****** Buscamos el producto correcto para luego agregarlo al carrito ******
+     **************************************************************************/
+
+    //Primero verificamos que el producto existe.
     const bExistProduct = aProductos.some(
         (elem) => elem.idProducto === Number(idElegido)
     );
+
     if (bExistProduct) {
         //Verificamos si este producto ya fue agregado al carrito
-        if (localStorage.getItem(idElegido) === null) {
+        //Para ello, verificamos en el array de productos si existe.
+
+        //if (localStorage.getItem(aProductos[idElegido - 1].nombre) === null) {
+        // USAR ESTO EN EL FUTURO:
+        if (!bexistProductCart(aProductos[idElegido - 1].nombre)) {
+            /** Si el producto NO fue agregado al carrito, lo agregamos  **/
+
             //Le agregamos al objeto el atributo Cantidad de Productos
             const addedProduct = { ...aProductos[idElegido - 1], cantidad: 1 };
 
-            //Producto Encontrado. Lo agregamos al localStorage
-            localStorage.setItem(idElegido, JSON.stringify(addedProduct));
+            //Lo agregamos al array de productos agregados al carrito
+            saveProductsCart(addedProduct);
+
             //Agregamos el producto al carrito
             addToCart(addedProduct, idElegido);
         } else {
+            /** El producto YA EXISTE en el carrito  **/
             alert(
                 `El producto ${
                     aProductos[idElegido - 1].nombre
@@ -95,8 +117,11 @@ function getProduct(idElegido) {
     }
 }
 
-//Agregamos el producto al carrito
 function addToCart(prodComprado, idElegido) {
+    /***************************************************************
+     *** Hacemos el renderizado del producto agregado al carrito ***
+     ***************************************************************/
+
     let shoppingCart = document.getElementById("container-shopping-cart");
 
     //Creamos el div que contiene la info del producto y la foto
@@ -124,9 +149,9 @@ function addToCart(prodComprado, idElegido) {
         </div>
     
         <div class="cart-buttons">
-            <button onclick="getIdBtn(this,false)" id="btn-sus${idElegido}" class="btn-sustract">-</button> 
+            <button onclick="getIdBtnSumaResta(this,false)" id="btn-sus${idElegido}" class="btn-sustract">-</button> 
             <h3 id="cant-products${idElegido}"> 1 </h3> 
-            <button onclick="getIdBtn(this,true)" id="btn-add${idElegido}" class="btn-add">+</button>
+            <button onclick="getIdBtnSumaResta(this,true)" id="btn-add${idElegido}" class="btn-add">+</button>
         </div>
     
     </div>`;
@@ -146,7 +171,11 @@ function addToCart(prodComprado, idElegido) {
     buyActive();
 }
 
-function getIdBtn(botonBuy, bSuma) {
+function getIdBtnSumaResta(botonBuy, bSuma) {
+    /**************************************************************************************
+     *** Esta función suma o resta un producto en el carrito, según el botón presionado ***
+     *************************************************************************************/
+
     let contador; // = document.getElementById("cant-products");
     let cant = 0; // contador.innerText;
     let idBotonBuy = botonBuy.id.toString();
@@ -156,8 +185,8 @@ function getIdBtn(botonBuy, bSuma) {
     cant = contador.innerText;
 
     //Transformamos el string en un objeto para poder actualizar la cantidad
-    let actualProduct = localStorage.getItem(idBotonBuy);
-    actualProduct = JSON.parse(actualProduct);
+    //let actualProduct = localStorage.getItem(idBotonBuy);
+    //actualProduct = JSON.parse(actualProduct);
 
     if (bSuma) {
         //Es una suma
@@ -174,9 +203,14 @@ function getIdBtn(botonBuy, bSuma) {
             contador.innerText = cant;
         }
     }
+
+    updateProductsCart(idBotonBuy, false, cant);
+
+    /*
     actualProduct.cantidad = cant;
     //Actualizamos el localStorage
     localStorage.setItem(idBotonBuy, JSON.stringify(actualProduct));
+    */
 }
 
 function removeProduct(btnRemoveP) {
@@ -192,7 +226,9 @@ function removeProduct(btnRemoveP) {
     nombreElem = nombreElem.innerText;
     nombreElem = nombreElem.substr(8, nombreElem.length - 1);
 
-    localStorage.removeItem(idBotonRemove);
+    //** BORRAMOS EL PRODUCTO DEL CARRITO **/
+    updateProductsCart(idBotonRemove, true, 0);
+
     //Borramos el producto del DOM
     const removeProd = document.getElementById(`producto${idBotonRemove}`);
     removeProd.remove();
@@ -217,9 +253,13 @@ function inputNameUser() {
         "container-shopping-products"
     );
 
+    /*usar esto en el futuro: 
     let nombre = getUser();
     container_Produ.innerHTML += `
     <h2>Hola <span>${nombre}</span></h2>`;
+    */
+    container_Produ.innerHTML += `
+    <h2>Hola <span> Pepe </span></h2>`;
 }
 
 function buyActive() {
@@ -265,26 +305,88 @@ function finishedPurchase() {
 }
 
 function main() {
-    if (isUserLogged()) {
-        //Carga de Productos
-        window.addEventListener("load", loadingProducts());
+    //if (isUserLogged()) {
 
-        //Ingresamos el nombre del cliente
-        inputNameUser();
+    //Carga de Productos
+    window.addEventListener("load", loadingProducts());
 
-        //Llenamos la grilla con los productos de forma dinámica
-        loadingGrid();
+    //Ingresamos el nombre del cliente
+    inputNameUser();
 
-        //Verificamos si hay productos en el carrito
-        buyActive();
+    //Llenamos la grilla con los productos de forma dinámica
+    loadingGrid();
 
-        //Verificamos si al recargar la página ya habían productos cargados en el carrito. De haberlos, los agregamos
-        loadingCart();
-        ///}
+    //Verificamos si hay productos en el carrito
+    //buyActive();
 
-        //Finalizar Compra
-        finishedPurchase();
-    }
+    //Verificamos si al recargar la página ya habían productos cargados en el carrito. De haberlos, los agregamos
+    loadingCart();
+    ///}
+
+    //Finalizar Compra
+    finishedPurchase();
+    //}
 }
 
 main();
+
+//-------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------
+// AQUÍ VA TODO LO QUE VOY A PONER EN EL ARCHIVO business.js CORRESPONDIENTE AL CARRITO DE COMPRAS
+
+/*****************************************************************
+ *** Métodos correspondientes al manejo del carrito de compras ***
+ *****************************************************************/
+
+function bexistProductCart(nameProducto) {
+    /** Esta función indica si un producto está en array de los productos del carrito de compras **/
+
+    const bExistProduct = aProductsCart.some(
+        (elem) => elem.nombre === nameProducto
+    );
+
+    return bExistProduct;
+}
+
+function saveProductsCart(addedProduct) {
+    /************************************************************************************************************
+Esta función guardará en un array los productos que se van agregando al carrito de compras y el localStorage
+*****************************************************************************************************************/
+
+    aProductsCart.push(addedProduct);
+
+    //Una vez que ya se agregó un nuevo producto en el array, sobreescribimos el localStorage con todo
+    //el contenido del array. O sea, con las novedades.
+    localStorage.setItem("productos", JSON.stringify(aProductsCart));
+}
+
+function updateProductsCart(idProdUpdate, bDeleteProduct, cantActual) {
+    /******************************************************************************************************************
+     * Esta función eliminará o actualizará el array de los productos que se van eliminando del carrito de compras y del localStorage ******************************************************************************************************************/
+
+    let indiceUpdate = 0;
+
+    //1)Traigo del localStorage todos los productos del carrito
+    aProductsCart = JSON.parse(localStorage.getItem("productos"));
+
+    //2)Buscamos dentro del array el objeto del producto que estoy quitando del carrito
+    const prodUpdate = aProductsCart.find((elem, index) => {
+        indiceUpdate = index;
+        return elem.idProducto == idProdUpdate;
+    });
+
+    //3)Ahora actualizamos o borramos del array del carrito el producto que quité, accediendo con el índice, según
+    //la operación que eligió el usuario
+    if (bDeleteProduct) {
+        aProductsCart.splice(indiceUpdate, 1);
+    } else {
+        aProductsCart[indiceUpdate].cantidad = cantActual;
+    }
+
+    //4)Sobreescribimos el localStorage con el carrito, pero ya sin el producto
+    localStorage.setItem("productos", JSON.stringify(aProductsCart));
+}
+
+function getProductCart() {
+    /** Esta función devuelve un producto del array de los productos están en el carrito de compras **/
+}

@@ -6,6 +6,8 @@
 
 //Array de Productos
 let aProductos = [];
+//Array de Productos que se van agregando al carrito de compras
+let aProductsCart = [];
 class Productos {
     /*
     constructor(idProducto, nombre, descripcion, medida, precio) {
