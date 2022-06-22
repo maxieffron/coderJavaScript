@@ -132,11 +132,15 @@ function getProduct(idElegido) {
             addToCart(addedProduct, idElegido);
         } else {
             /** El producto YA EXISTE en el carrito  **/
-            alert(
-                `El producto ${
+            Swal.fire({
+                position: "center",
+                icon: "warning",
+                title: `El producto ${
                     aProductos[idElegido - 1].nombre
-                } ya fue agregado al carrito de compras`
-            );
+                } ya fue agregado al carrito de compras`,
+                showConfirmButton: false,
+                timer: 3000,
+            });
         }
     }
 }
@@ -247,7 +251,13 @@ function getIdBtnSumaResta(botonBuy, bSuma) {
         cant--;
 
         if (cant < 1) {
-            alert("No es posible seguir quitando productos del carrito");
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "No es posible seguir quitando productos del carrito",
+                showConfirmButton: false,
+                timer: 3000,
+            });
             cant = 1;
         } else {
             contador.innerText = cant;
@@ -317,55 +327,59 @@ function inputNameUser() {
         "container-shopping-products"
     );
 
-    /*usar esto en el futuro: 
     let nombre = getUser();
     container_Produ.innerHTML += `
     <h2>Hola <span>${nombre}</span></h2>`;
-    */
-    container_Produ.innerHTML += `
-    <h2>Hola <span> Pepe </span></h2>`;
-}
-
-function buyActive() {
-    //Verificamos si hay productos en el carrito
-
-    const btnCheckOut = document.querySelector("#btn-checkout");
-
-    localStorage.length === 0
-        ? //Si no hay productos, deshabilitamos el botón "Finalizar Compra"
-          (btnCheckOut.disabled = true)
-        : //Si no hay productos, habilitamos el botón "Finalizar Compra"
-          (btnCheckOut.disabled = false);
 }
 
 function finishedPurchase() {
-    let button_Checkout = document.getElementById("btn-checkout");
-    button_Checkout.addEventListener("click", () => {
-        Swal.fire(`Su compra ha finalizado.\n Gracias por elegirnos!!`);
+    /* ****** Verificamos si hay productos en el carrito ******
+  Si hay productos, consultamos si se quiere finalizar o no la compra ****** */
 
-        /*
-        //Confirmamos o no la compra
-        Swal.fire({
-            title: "¿Realmente desea finalizar la compra?",
-            icon: "warning",
-            iconColor: "#337cae",
-            showCancelButton: true,
-            cancelButtonText: "No",
-            confirmButtonColor: "#337cae",
-            cancelButtonColor: "#ff8800",
-            confirmButtonText: "Sí!",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: "¿Realmente desea finali",
-                    icon: "warning",
-                    iconColor: "#337cae",
-                    showCancelButton: false,
-                });
-            }
-        });
-        */
+    const btnCheckOut = document.querySelector("#btn-checkout");
+
+    btnCheckOut.addEventListener("click", () => {
+        if (aProductsCart.length > 0) {
+            //Swal.fire(`Su compra ha finalizado.\n Gracias por elegirnos!!`);
+
+            //Confirmamos o no la compra
+            Swal.fire({
+                title: "¿Realmente desea finalizar la compra?",
+                icon: "warning",
+                //iconColor: "#337cae",
+                showCancelButton: true,
+                cancelButtonText: "No",
+                confirmButtonColor: "#337cae",
+                cancelButtonColor: "#ff8800",
+                confirmButtonText: "Sí!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: `Su compra ha finalizado.\n Gracias ${getUser().toUpperCase()} por elegirnos!!`,
+                        icon: "success",
+                        //iconColor: "#337cae",
+                        confirmButtonColor: "#ff8800",
+                        showCancelButton: false,
+                    });
+                }
+            });
+        }
     });
+}
+
+function buyActive() {
+    /*Se verifica si hay productos cargados en el arrito. En base a eso, habilitamos o deshabilitamos el botón "Finalizar Compra" */
+    const btnCheckOut = document.querySelector("#btn-checkout");
+
+    if (aProductsCart.length === 0) {
+        //Si no hay productos, deshabilitamos el botón "Finalizar Compra"
+        btnCheckOut.disabled = true;
+        btnCheckOut.setAttribute("style", "background-color:#c4c4c4;");
+    } else {
+        //Si no hay productos, habilitamos el botón "Finalizar Compra"
+        btnCheckOut.disabled = false;
+        btnCheckOut.setAttribute("style", "background-color:#ff8800;");
+    }
 }
 
 function main() {
@@ -380,7 +394,8 @@ function main() {
         loadingGrid();
 
         //Verificamos si hay productos en el carrito
-        //buyActive();
+        buyActive();
+        // finishedPurchase();
 
         //Verificamos si al recargar la página ya habían productos cargados en el carrito. De haberlos, los agregamos
         loadingCart();
@@ -391,86 +406,9 @@ function main() {
     TotalPrice.innerText = `Total: $${getTotalPrice().toFixed(2)}`;
 
     //Finalizar Compra
-    finishedPurchase();
+    //finishedPurchase();
     //}
 }
 
 main();
-
-//-------------------------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------------------------
-// AQUÍ VA TODO LO QUE VOY A PONER EN EL ARCHIVO business.js CORRESPONDIENTE AL CARRITO DE COMPRAS
-
-/*****************************************************************
- *** Métodos correspondientes al manejo del carrito de compras ***
- *****************************************************************/
-
-function bexistProductCart(nameProducto) {
-    /** Esta función indica si un producto está en array de los productos del carrito de compras **/
-
-    const bExistProduct = aProductsCart.some(
-        (elem) => elem.nombre === nameProducto
-    );
-
-    return bExistProduct;
-}
-
-function saveProductsCart(addedProduct) {
-    /************************************************************************************************************
-Esta función guardará en un array los productos que se van agregando al carrito de compras y el localStorage
-*****************************************************************************************************************/
-
-    aProductsCart.push(addedProduct);
-
-    //Una vez que ya se agregó un nuevo producto en el array, sobreescribimos el localStorage con todo
-    //el contenido del array. O sea, con las novedades.
-    localStorage.setItem("productos", JSON.stringify(aProductsCart));
-}
-
-function updateProductsCart(idProdUpdate, bDeleteProduct, cantActual) {
-    /******************************************************************************************************************
-     * Esta función eliminará o actualizará el array de los productos que se van eliminando del carrito de compras y del localStorage ******************************************************************************************************************/
-
-    let indiceUpdate = 0;
-    let precioParcial = 0;
-
-    //1)Traigo del localStorage todos los productos del carrito
-    aProductsCart = JSON.parse(localStorage.getItem("productos"));
-
-    //2)Buscamos dentro del array el objeto del producto que estoy quitando del carrito
-    const prodUpdate = aProductsCart.find((elem, index) => {
-        indiceUpdate = index;
-        return elem.idProducto == idProdUpdate;
-    });
-
-    //3)Ahora actualizamos o borramos del array del carrito el producto que quité, accediendo con el índice, según
-    //la operación que eligió el usuario
-
-    if (bDeleteProduct) {
-        //4)Precio Parcial (Cantidad * Precio)
-        /*aProductsCart[indiceUpdate].precioParcial =
-            aProductsCart[indiceUpdate].precio *
-            aProductsCart[indiceUpdate].cantidad;
-        precioParcial = aProductsCart[indiceUpdate].precioParcial;
-        */
-
-        aProductsCart.splice(indiceUpdate, 1);
-    } else {
-        //Cantidad actual de un mismo producto en el carrito
-        aProductsCart[indiceUpdate].cantidad = cantActual;
-        //4)Precio Parcial (Cantidad * Precio)
-        aProductsCart[indiceUpdate].precioParcial =
-            aProductsCart[indiceUpdate].precio * cantActual;
-        precioParcial = aProductsCart[indiceUpdate].precioParcial;
-    }
-
-    //5)Sobreescribimos el localStorage con el carrito, pero ya sin el producto
-    localStorage.setItem("productos", JSON.stringify(aProductsCart));
-
-    //Devolvemos el importe parcial para reflejarlo en pantalla
-    return precioParcial;
-}
-
-function getProductCart() {
-    /** Esta función devuelve un producto del array de los productos están en el carrito de compras **/
-}
+finishedPurchase();
