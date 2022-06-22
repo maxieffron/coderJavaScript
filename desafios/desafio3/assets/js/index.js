@@ -46,14 +46,5 @@ function login() {
     });
 }
 
-function createButtonCloseSession() {
-    const menuNav = document.querySelector(".menu-nav-ul li:nth-child(3)");
-
-    let itemNav = document.createElement("li");
-    itemNav.className = "menu-item";
-    itemNav.innerText = "Cerrar Sesión";
-
-    menuNav.appendChild(itemNav);
-}
-
 login();
+//dieSession("index.html");

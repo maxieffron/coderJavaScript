@@ -17,24 +17,6 @@ function loadingCart() {
     /************************************************************************************************************
 Verificamos si al recargar la página ya habían productos cargados en el carrito. De haberlos, los agregamos
 *************************************************************************************************************/
-    /*if (!localStorage.length == 0) {
-        for (let ind = 0; localStorage.length; ind++) {
-            const clave = localStorage.key(ind);
-            let loadProducts = localStorage.getItem(clave);
-            loadProducts = JSON.parse(loadProducts);
-            
-            //Aquí cargamos dinámicamente en el carrito los productos que ya estaban
-            //almacenados en el storage.
-
-            addToCart(loadProducts, loadProducts.idProducto);
-        }
-    }
-    */
-
-    //let cantProdInStorage = localStorage.getItem("productos");
-
-    //let cantProdInStorage = 0;
-
     if (!(localStorage.getItem("productos") === null)) {
         aProductsCart = JSON.parse(localStorage.getItem("productos"));
 
@@ -384,6 +366,9 @@ function buyActive() {
 
 function main() {
     if (isUserLogged()) {
+        //Agregamos el botón "Cerrar Sesión"
+        createButtonCloseSession();
+
         //Carga de Productos
         window.addEventListener("load", loadingProducts());
 
@@ -412,3 +397,4 @@ function main() {
 
 main();
 finishedPurchase();
+dieSession("../../index.html");

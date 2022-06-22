@@ -90,6 +90,52 @@ function updateProductsCart(idProdUpdate, bDeleteProduct, cantActual) {
     return precioParcial;
 }
 
-function getProductCart() {
-    /** Esta función devuelve un producto del array de los productos están en el carrito de compras **/
+function createButtonCloseSession() {
+    /* Esta función agrega un botón "Cerrar Sesión" en el menú*/
+    const menuNav = document.querySelector(".menu-nav-ul");
+
+    let itemNav = document.createElement("li");
+    itemNav.className = "menu-item";
+    itemNav.setAttribute("id", "btnCloseSession");
+    itemNav.innerHTML += `<a href="#">Cerrar Sesión</a>`;
+
+    //itemNav.innerText = "Cerrar Sesión";
+
+    menuNav.appendChild(itemNav);
+}
+
+function dieSession(siteIndex) {
+    /* Esta función quita el botón de "Cerrar Sesión" y elimina el usario del localStorage */
+
+    const btnCerrarSession = document.getElementById("btnCloseSession");
+
+    btnCerrarSession.addEventListener("click", () => {
+        //Confirmamos o no si cerramos la sesión
+        Swal.fire({
+            title: "¿Realmente desea cerrar la sesión?",
+            icon: "question",
+            //iconColor: "#337cae",
+            showCancelButton: true,
+            cancelButtonText: "No",
+            confirmButtonColor: "#337cae",
+            cancelButtonColor: "#ff8800",
+            confirmButtonText: "Sí!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: `La sesión ha finalizado.`,
+                    icon: "success",
+                    //iconColor: "#337cae",
+                    confirmButtonColor: "#ff8800",
+                    showCancelButton: false,
+                });
+
+                btnCerrarSession.remove();
+
+                //Lo quitamos del storage
+                localStorage.clear();
+                location.href = siteIndex;
+            }
+        });
+    });
 }
