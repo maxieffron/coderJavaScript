@@ -4,7 +4,7 @@
  ****** Aquí irá toda la implementación dinámica de la página principal *****
  */
 
-let nameUser = "";
+//let nameUser = "";
 
 function login() {
     const btn_Login = document.getElementById("btn-Login");
@@ -27,21 +27,19 @@ function login() {
                 // Si el valor es válido, debes regresar undefined. Si no, una cadena
                 if (!nombreCliente) {
                     return "Por favor escribe tu nombre";
-                } else {
-                    Swal.fire({
-                        imageUrl: "./assets/images/logo_DaletDesign.png",
-                        imageWidth: 200,
-                        imageHeight: 200,
-                        title: `Hola ${nombreCliente}!!`,
-                        text: "Ingresando a nuestro shopping...",
-                        showConfirmButton: false,
-                    });
-                    nameUser = nombreCliente;
-                    setTimeout(function () {
-                        location.href = "./assets/pages/products.html";
-                        //main();
-                    }, 3000);
                 }
+                Swal.fire({
+                    imageUrl: "./assets/images/logo_DaletDesign.png",
+                    imageWidth: 200,
+                    imageHeight: 200,
+                    title: `Hola ${nombreCliente}!!`,
+                    text: "Ingresando a nuestro shopping...",
+                    showConfirmButton: false,
+                });
+                setTimeout(() => {
+                    setUser(nombreCliente); //Guardamos el usuario en el localStorage
+                    location.href = "./assets/pages/products.html";
+                }, 3000);
             },
         });
     });
