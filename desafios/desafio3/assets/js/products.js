@@ -66,14 +66,20 @@ Llenamos la grilla con los productos de forma dinámica
             <li id="idProd" class="products">
 
                 <div class="cont-images">
-                    <img class="img-Product" src="${prod.imagen}" alt="${prod.nombre}">
+                    <img class="img-Product" src="${prod.imagen}" alt="${
+            prod.nombre
+        }">
                 </div>
 
                 <div class="cont-info-prod">
                     <h3>${prod.nombre}</h3>
                     <h3>${prod.descripcion}</h3>
-                    <h3 id="h3-price">$${prod.precio}</h3>
-                    <button onclick="getIdProd(this)" id=buy${prod.idProducto} class="btn-Buy">Comprar</button>
+                    <h3 id="h3-price">$${prod.precio.toFixed(2)}</h3>
+                    <button onclick="getIdProd(this)" id=buy${
+                        prod.idProducto
+                    } class="btn-Buy">Comprar</button>
+                   
+                   
                 </div>
 
             </li>`;
@@ -113,7 +119,11 @@ function getProduct(idElegido) {
             /** Si el producto NO fue agregado al carrito, lo agregamos  **/
 
             //Le agregamos al objeto el atributo Cantidad de Productos
-            const addedProduct = { ...aProductos[idElegido - 1], cantidad: 1 };
+            const addedProduct = {
+                ...aProductos[idElegido - 1],
+                cantidad: 1,
+                precioParcial: aProductos[idElegido - 1].precio,
+            };
 
             //Lo agregamos al array de productos agregados al carrito
             saveProductsCart(addedProduct);
@@ -157,18 +167,37 @@ function addToCart(prodComprado, idElegido) {
 
         <button id="btn-remove${idElegido}" class="btnRemoveItem" onclick="removeProduct(this)">X</button>
         <div class="selected-product">
-            <h3 class = "cart-name"> <span>Nombre:</span> ${prodComprado.nombre} </h3>
-            <h3 class="cart-description"><span>Descripción:</span> ${prodComprado.descripcion} </h3>
-            <h3 class="cart-price"><span>Precio:</span> $${prodComprado.precio}</h3>
+            <h3 class = "cart-name"> <span>Nombre:</span> ${
+                prodComprado.nombre
+            } </h3>
+            <h3 class="cart-description"><span>Descripción:</span> ${
+                prodComprado.descripcion
+            } </h3>
+            <h3 class="cart-price"><span>Precio:</span> $${prodComprado.precio.toFixed(
+                2
+            )}</h3>
         </div>
     
         <div class="cart-buttons">
+            <div id="dataProduct">
             <button onclick="getIdBtnSumaResta(this,false)" id="btn-sus${idElegido}" class="btn-sustract">-</button> 
             <h3 id="cant-products${idElegido}"> ${prodComprado.cantidad} </h3> 
             <button onclick="getIdBtnSumaResta(this,true)" id="btn-add${idElegido}" class="btn-add">+</button>
+            </div>
+
+            <div id="precioParcial${idElegido}">
+            <h3>Precio: $${
+                //prodComprado.precio * prodComprado.cantidad
+                prodComprado.precioParcial.toFixed(2)
+            }</h3></div>
         </div>
+        
     
     </div>`;
+
+    //Total de la compra
+    let TotalPrice = document.getElementById("totalPrice");
+    TotalPrice.innerText = `Total: $${getTotalPrice().toFixed(2)}`;
 
     //Mostramos popup con Toastify al agregar un producto al carrito
     Toastify({
@@ -195,8 +224,15 @@ function getIdBtnSumaResta(botonBuy, bSuma) {
     let idBotonBuy = botonBuy.id.toString();
     idBotonBuy = Number(idBotonBuy.substr(7, idBotonBuy.length - 1));
 
+    //Cantidad de Productos
     contador = document.getElementById(`cant-products${idBotonBuy}`);
     cant = contador.innerText;
+
+    //Precio Parcial
+    let divPrecioParcial = document.querySelector(
+        `#precioParcial${idBotonBuy} > h3`
+    );
+    let parcial = 0;
 
     //Transformamos el string en un objeto para poder actualizar la cantidad
     //let actualProduct = localStorage.getItem(idBotonBuy);
@@ -218,13 +254,23 @@ function getIdBtnSumaResta(botonBuy, bSuma) {
         }
     }
 
-    updateProductsCart(idBotonBuy, false, cant);
+    //Parcial de la compra
+    parcial = updateProductsCart(idBotonBuy, false, cant);
+    divPrecioParcial.innerText = `Precio: $${parcial.toFixed(2)}`;
 
-    /*
-    actualProduct.cantidad = cant;
-    //Actualizamos el localStorage
-    localStorage.setItem(idBotonBuy, JSON.stringify(actualProduct));
-    */
+    //Total de la compra
+    let TotalPrice = document.getElementById("totalPrice");
+    TotalPrice.innerText = `Total: $${getTotalPrice().toFixed(2)}`;
+}
+
+function getTotalPrice() {
+    //Obtenemos el total de la compra
+    let suma = 0;
+    for (const prod of aProductsCart) {
+        suma += prod.precioParcial;
+    }
+
+    return suma;
 }
 
 function removeProduct(btnRemoveP) {
@@ -246,6 +292,10 @@ function removeProduct(btnRemoveP) {
     //Borramos el producto del DOM
     const removeProd = document.getElementById(`producto${idBotonRemove}`);
     removeProd.remove();
+
+    //Total de la compra
+    let TotalPrice = document.getElementById("totalPrice");
+    TotalPrice.innerText = `Total: $${getTotalPrice().toFixed(2)}`;
 
     //Mostramos popup con Toastify al agregar un producto al carrito
     Toastify({
@@ -319,23 +369,26 @@ function finishedPurchase() {
 }
 
 function main() {
-    //if (isUserLogged()) {
+    if (isUserLogged()) {
+        //Carga de Productos
+        window.addEventListener("load", loadingProducts());
 
-    //Carga de Productos
-    window.addEventListener("load", loadingProducts());
+        //Ingresamos el nombre del cliente
+        inputNameUser();
 
-    //Ingresamos el nombre del cliente
-    inputNameUser();
+        //Llenamos la grilla con los productos de forma dinámica
+        loadingGrid();
 
-    //Llenamos la grilla con los productos de forma dinámica
-    loadingGrid();
+        //Verificamos si hay productos en el carrito
+        //buyActive();
 
-    //Verificamos si hay productos en el carrito
-    //buyActive();
+        //Verificamos si al recargar la página ya habían productos cargados en el carrito. De haberlos, los agregamos
+        loadingCart();
+    }
 
-    //Verificamos si al recargar la página ya habían productos cargados en el carrito. De haberlos, los agregamos
-    loadingCart();
-    ///}
+    //Total de la compra
+    let TotalPrice = document.getElementById("totalPrice");
+    TotalPrice.innerText = `Total: $${getTotalPrice().toFixed(2)}`;
 
     //Finalizar Compra
     finishedPurchase();
@@ -379,6 +432,7 @@ function updateProductsCart(idProdUpdate, bDeleteProduct, cantActual) {
      * Esta función eliminará o actualizará el array de los productos que se van eliminando del carrito de compras y del localStorage ******************************************************************************************************************/
 
     let indiceUpdate = 0;
+    let precioParcial = 0;
 
     //1)Traigo del localStorage todos los productos del carrito
     aProductsCart = JSON.parse(localStorage.getItem("productos"));
@@ -391,14 +445,30 @@ function updateProductsCart(idProdUpdate, bDeleteProduct, cantActual) {
 
     //3)Ahora actualizamos o borramos del array del carrito el producto que quité, accediendo con el índice, según
     //la operación que eligió el usuario
+
     if (bDeleteProduct) {
+        //4)Precio Parcial (Cantidad * Precio)
+        /*aProductsCart[indiceUpdate].precioParcial =
+            aProductsCart[indiceUpdate].precio *
+            aProductsCart[indiceUpdate].cantidad;
+        precioParcial = aProductsCart[indiceUpdate].precioParcial;
+        */
+
         aProductsCart.splice(indiceUpdate, 1);
     } else {
+        //Cantidad actual de un mismo producto en el carrito
         aProductsCart[indiceUpdate].cantidad = cantActual;
+        //4)Precio Parcial (Cantidad * Precio)
+        aProductsCart[indiceUpdate].precioParcial =
+            aProductsCart[indiceUpdate].precio * cantActual;
+        precioParcial = aProductsCart[indiceUpdate].precioParcial;
     }
 
-    //4)Sobreescribimos el localStorage con el carrito, pero ya sin el producto
+    //5)Sobreescribimos el localStorage con el carrito, pero ya sin el producto
     localStorage.setItem("productos", JSON.stringify(aProductsCart));
+
+    //Devolvemos el importe parcial para reflejarlo en pantalla
+    return precioParcial;
 }
 
 function getProductCart() {
