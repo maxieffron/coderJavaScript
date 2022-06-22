@@ -17,15 +17,29 @@ function loadingCart() {
     /************************************************************************************************************
 Verificamos si al recargar la página ya habían productos cargados en el carrito. De haberlos, los agregamos
 *************************************************************************************************************/
-    if (!localStorage.length == 0) {
+    /*if (!localStorage.length == 0) {
         for (let ind = 0; localStorage.length; ind++) {
             const clave = localStorage.key(ind);
             let loadProducts = localStorage.getItem(clave);
             loadProducts = JSON.parse(loadProducts);
+            
             //Aquí cargamos dinámicamente en el carrito los productos que ya estaban
             //almacenados en el storage.
 
             addToCart(loadProducts, loadProducts.idProducto);
+        }
+    }
+    */
+
+    //let cantProdInStorage = localStorage.getItem("productos");
+
+    //let cantProdInStorage = 0;
+
+    if (!(localStorage.getItem("productos") === null)) {
+        aProductsCart = JSON.parse(localStorage.getItem("productos"));
+
+        for (const prod of aProductsCart) {
+            addToCart(prod, prod.idProducto);
         }
     }
 }
@@ -150,7 +164,7 @@ function addToCart(prodComprado, idElegido) {
     
         <div class="cart-buttons">
             <button onclick="getIdBtnSumaResta(this,false)" id="btn-sus${idElegido}" class="btn-sustract">-</button> 
-            <h3 id="cant-products${idElegido}"> 1 </h3> 
+            <h3 id="cant-products${idElegido}"> ${prodComprado.cantidad} </h3> 
             <button onclick="getIdBtnSumaResta(this,true)" id="btn-add${idElegido}" class="btn-add">+</button>
         </div>
     
@@ -277,7 +291,7 @@ function buyActive() {
 function finishedPurchase() {
     let button_Checkout = document.getElementById("btn-checkout");
     button_Checkout.addEventListener("click", () => {
-        Swal.fire("Any fool can use a computer");
+        Swal.fire(`Su compra ha finalizado.\n Gracias por elegirnos!!`);
 
         /*
         //Confirmamos o no la compra
