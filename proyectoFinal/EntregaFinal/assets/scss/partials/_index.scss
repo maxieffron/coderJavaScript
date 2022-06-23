@@ -1,0 +1,32 @@
+/* ------ PÁGINA PRINCIPAL ------*/
+
+#container-login {
+    width: 30%;
+    height: 100%;
+    border: 3px solid $tertiary-color;
+    border-radius: 6px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.logo-Login {
+    display: block;
+    width: 70%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#btn-Login {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    width: 180px;
+    height: 40px;
+    background-color: $tertiary-color;
+
+    border-radius: 3px;
+    color: $font_color-primary;
+    font-weight: 600;
+}

@@ -1,0 +1,51 @@
+/* ------ RESPONSIVE ------*/
+
+@media screen and (max-width: 992px) {
+    /* ------ HEADER ------*/
+    .menu-nav-ul {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+
+    .menu-item {
+        width: 100%;
+        margin: 5px 0;
+        background-color: transparent;
+        text-align: center;
+        &:hover {
+            background-color: $secondary-color;
+        }
+    }
+
+    .item-link {
+        color: #ffffff;
+        width: 100%;
+        height: 100%;
+
+        &:active {
+            width: 100%;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /* ------ INDEX ------*/
+    #container-login {
+        width: 60%;
+    }
+
+    #btn-Login {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    /* ------ INDEX ------*/
+
+    #container-login {
+        width: 80%;
+    }
+}
