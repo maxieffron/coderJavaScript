@@ -1,9 +1,0 @@
-                        LISTA DE DESAFÍOS
-
-- Desafío Nº1: Simulador interactivo. Utilización de funciones. 
-
-- Desafío Nº2: Incorporar Eventos. Utilización del DOM para manipular e interactuar con HTML. 
-
-- Desafío Nº3: 
-
-- Desafío Nº4: 
