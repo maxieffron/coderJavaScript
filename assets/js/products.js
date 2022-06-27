@@ -1,16 +1,79 @@
 "use strict";
 
-// ****** CARRITO DE COMPRAS ******
-//let boton_mas; // = document.getElementById("btn-add");
-//let boton_menos; // = document.getElementById("btn-sustract");
+//Array de Productos
+let aProductos = [];
+//Array de Productos que se van agregando al carrito de compras
+let aProductsCart = [];
+
+// ****** CLASE PRODUCTOS ******
+class Productos {
+    /*
+    constructor(idProducto, nombre, descripcion, medida, precio) {
+        this.idProducto = idProducto;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.medida = medida;
+        this.precio = precio;
+    }
+    */
+    constructor(obj) {
+        this.idProducto = obj.idProducto;
+        this.nombre = obj.nombre;
+        this.categoria = obj.categoria;
+        this.tipoProd = obj.tipoProd;
+        this.descripcion = obj.descripcion;
+        this.medida = obj.medida;
+        this.imagen = obj.imagen;
+        this.precio = obj.precio;
+    }
+}
 
 //-------------------------------------------------------
 
 function loadingProducts() {
-    for (const prod of products) {
+    /****** Levantamos los productos a través de un fetch.
+     * La ruta relativa del fetch se arma partiendo de la ruta en donde se encuentra
+     * el archivo products.html.
+     * Los productos se encuentran en un JSON local. Una vez obtenidos los productos, los
+     * agregamos a un array para poder utilizarlos.
+     *
+     * La promesa nos devuelve un objeto de tipo Response. Pero para acceder al contenido
+     * de ese objeto (Todos los productos), hay que hacer otro ".then"
+     *  ******/
+
+    fetch("../js/products_Definition.json")
+        .then((response) => {
+            if (response.ok) {
+                //Promesa devuelta por el request si todo fue ok
+                response.json();
+            } else {
+                //Esto lo que hace es forzar a saltar al catch, ya que la promesa
+                //la respuesta a la petición dio un error
+                Promise.reject(response);
+            }
+        })
+
+        .then((JSONProductos) => {
+            for (const prod of JSONProductos) {
+                aProductos.push(new Productos(prod));
+            }
+        })
+        //La promesa devuelve un error
+        .catch((error) => {
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: `Error ${error}`,
+                showConfirmButton: false,
+                timer: 4000,
+            });
+        });
+
+    /*for (const prod of products) {
         //Cargamos todos los productos en un array
         aProductos.push(new Productos(prod));
     }
+    */
 }
 
 function loadingCart() {
@@ -45,7 +108,7 @@ Llenamos la grilla con los productos de forma dinámica
     for (let prod of aProductos) {
         lista.innerHTML += ` 
         
-            <li id="idProd" class="products">
+            <li class="idProd products">
 
                 <div class="cont-images">
                     <img class="img-Product" src="${prod.imagen}" alt="${

@@ -1,5 +1,14 @@
 /* ------ RESPONSIVE ------*/
 
+@media screen and (max-width: 1200px) {
+    /* ------ PRODUCTOS ------*/
+
+    //Productos
+    .products {
+        width: 40%;
+    }
+}
+
 @media screen and (max-width: 992px) {
     /* ------ HEADER ------*/
     .menu-nav-ul {
@@ -39,6 +48,21 @@
 
     #btn-Login {
         width: 80%;
+    }
+
+    /* ------ PRODUCTOS ------*/
+
+    //** Productos **
+    #container-shopping-products {
+        width: 55%;
+    }
+    .products {
+        width: 55%;
+    }
+
+    //** Carrito de Compras **
+    #carrito-Dalet {
+        width: 45%;
     }
 }
 
