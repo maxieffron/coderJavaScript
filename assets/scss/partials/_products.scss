@@ -64,17 +64,20 @@
 //Contenedor de imághenes
 .cont-images {
     width: 100%;
-    height: 55%; //200px;;
+    //height: 55%;
+    height: auto;
     border: 2px solid $tertiary-color;
 }
 
 .img-Product {
     display: block;
-    //margin-left: auto;
-    //margin-right: auto;
-    margin: auto auto;
-    padding-top: 10px;
-    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 1%;
+    //margin: auto auto;
+    //padding-top: 10px;
+    //width: 60%;
+    width: 60%;
     height: 100%;
 }
 

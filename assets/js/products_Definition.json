@@ -52,7 +52,7 @@
         },
         {
             "idProducto": 6,
-            "nombre": "Reloj Rectangular -  - Batman 001",
+            "nombre": "Reloj Rectangular - Batman 001",
             "categoria": "Vintage",
             "tipoProd": "Reloj Rectangular",
             "descripcion": "20x30 cm",
@@ -62,7 +62,7 @@
         },
         {
             "idProducto": 7,
-            "nombre": "Reloj Rectangular -  - Batman 002",
+            "nombre": "Reloj Rectangular - Batman 002",
             "categoria": "Vintage",
             "tipoProd": "Reloj Rectangular",
             "descripcion": "30x40 cm",

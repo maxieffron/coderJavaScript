@@ -1,11 +1,50 @@
 /* ------ RESPONSIVE ------*/
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1400px) {
     /* ------ PRODUCTOS ------*/
 
     //Productos
     .products {
+        //width: 40%;
+        width: 32%;
+    }
+}
+
+@media screen and (max-width: 1300px) {
+    /* ------ PRODUCTOS ------*/
+
+    #container-shopping-products {
+        width: 60%;
+    }
+
+    #carrito-Dalet {
         width: 40%;
+    }
+
+    //Productos
+    .products {
+        width: 40%;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    /* ------ PRODUCTOS ------*/
+
+    #container-shopping-products {
+        width: 55%;
+    }
+
+    #carrito-Dalet {
+        width: 45%;
+    }
+
+    //Productos
+    .products {
+        width: 45%;
+    }
+
+    .img-Product {
+        width: 65%;
     }
 }
 
@@ -38,6 +77,27 @@
             width: 100%;
         }
     }
+
+    /* ------ PRODUCTOS ------*/
+
+    #container-shopping-products {
+        width: 40%;
+    }
+
+    #carrito-Dalet {
+        width: 60%;
+    }
+
+    //Productos
+    .products {
+        width: 80%;
+        height: 12%;
+        margin-bottom: 20px;
+    }
+
+    .img-Product {
+        width: 65%;
+    }
 }
 
 @media screen and (max-width: 768px) {
@@ -52,17 +112,23 @@
 
     /* ------ PRODUCTOS ------*/
 
-    //** Productos **
+    //Productos
     #container-shopping-products {
-        width: 55%;
-    }
-    .products {
-        width: 55%;
+        width: 50%;
     }
 
     //** Carrito de Compras **
     #carrito-Dalet {
-        width: 45%;
+        width: 50%;
+    }
+
+    //Productos
+    .products {
+        width: 90%;
+    }
+
+    .cont-info-prod {
+        height: 42%;
     }
 }
 
@@ -71,5 +137,81 @@
 
     #container-login {
         width: 80%;
+    }
+
+    /* ------ PRODUCTOS ------*/
+
+    //Productos
+    .cont-info-prod {
+        h3 {
+            font-size: 14px;
+        }
+    }
+
+    #h3-price {
+        font-size: 18px;
+    }
+
+    .btn-Buy {
+        font-size: 16px;
+    }
+
+    .products {
+        margin-bottom: 15px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    /* ------ PRODUCTOS ------*/
+
+    .cont-info-prod {
+        height: 44%;
+        h3 {
+            font-size: 12px;
+        }
+    }
+
+    #h3-price {
+        font-size: 16px;
+    }
+
+    .btn-Buy {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    /* ------ PRODUCTOS ------*/
+
+    .products {
+        //margin-bottom: 10px;
+        height: 15%;
+    }
+
+    .cont-info-prod {
+        //height: 50%;
+        h3 {
+            font-size: 10px;
+        }
+    }
+
+    #h3-price {
+        font-size: 14px;
+    }
+
+    .btn-Buy {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    /* ------ PRODUCTOS ------*/
+
+    .cont-info-prod {
+        height: 50%;
+    }
+    .products {
+        //margin-bottom: 10px;
+        height: 13%;
     }
 }
