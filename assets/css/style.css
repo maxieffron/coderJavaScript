@@ -289,8 +289,7 @@ a {
   left: 88%;
   */
   margin-top: 2%;
-  margin-left: 90%;
-  border-radius: 50%;
+  margin-left: 88%;
   width: 26px;
   height: 26px;
   color: #ff8800;
@@ -340,7 +339,7 @@ a {
 
 .selected-product {
   width: 100%;
-  margin: 10px 0;
+  margin-top: 10px;
 }
 
 .cart-name,
@@ -365,12 +364,17 @@ a {
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   border-radius: 6px;
   padding: 5px;
   margin: 0 auto;
   margin-bottom: 10px;
   margin-left: 5px;
+}
+.cart-buttons h3 {
+  padding-top: 11px;
+  padding-left: 14px;
+  font-size: 18px;
 }
 
 #dataProduct {
@@ -498,7 +502,7 @@ a {
   }
 
   #carrito-Dalet {
-    width: 60%;
+    width: 55%;
   }
 
   .products {
@@ -537,6 +541,26 @@ a {
   .cont-info-prod {
     height: 42%;
   }
+
+  /* ------ CARRITO DE COMPRAS ------*/
+  .selected-product h3 {
+    font-size: 14px;
+  }
+
+  #dataProduct {
+    padding: 8px 8px;
+  }
+
+  .cart-buttons h3 {
+    padding-left: 0;
+  }
+
+  .btnRemoveItem {
+    width: 20px;
+    height: 20px;
+    font-size: 18px;
+    margin-left: 86%;
+  }
 }
 @media screen and (max-width: 576px) {
   /* ------ INDEX ------*/
@@ -559,6 +583,14 @@ a {
 
   .products {
     margin-bottom: 15px;
+  }
+
+  /* ------ CARRITO DE COMPRAS ------*/
+  .btnRemoveItem {
+    width: 15px;
+    height: 15px;
+    font-size: 12px;
+    margin-left: 84%;
   }
 }
 @media screen and (max-width: 480px) {
