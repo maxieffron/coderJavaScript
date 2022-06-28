@@ -119,7 +119,7 @@ function dieSession(siteIndex) {
             cancelButtonText: "No",
             confirmButtonColor: "#337cae",
             cancelButtonColor: "#ff8800",
-            confirmButtonText: "Sí!",
+            confirmButtonText: "Sí",
         }).then((result) => {
             if (result.isConfirmed) {
                 Swal.fire({

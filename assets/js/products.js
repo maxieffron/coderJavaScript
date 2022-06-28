@@ -28,12 +28,12 @@ class Productos {
     }
 }
 
-//-------------------------------------------------------
+//-----------------------------------------------------------------------------------------
 
 function loadingProducts() {
     /****** Levantamos los productos a través de un fetch.
      * La ruta relativa del fetch se arma partiendo de la ruta en donde se encuentra
-     * el archivo products.html.
+     * este mismo archivo.
      * Los productos se encuentran en un JSON local. Una vez obtenidos los productos, los
      * agregamos a un array para poder utilizarlos.
      *
@@ -42,22 +42,20 @@ function loadingProducts() {
      *  ******/
 
     fetch("../js/products_Definition.json")
-        .then((response) => {
-            if (response.ok) {
-                //Promesa devuelta por el request si todo fue ok
-                response.json();
-            } else {
-                //Esto lo que hace es forzar a saltar al catch, ya que la promesa
-                //la respuesta a la petición dio un error
-                Promise.reject(response);
+        .then((response) => response.json())
+        .then((JSONProductos) => {
+            //Guardamos en el array cada uno de los productos
+            for (const dataProd of JSONProductos.productos) {
+                aProductos.push(new Productos(dataProd));
             }
+
+            //Ingresamos el nombre del cliente
+            inputNameUser();
+
+            //Llenamos la grilla con los productos de forma dinámica
+            loadingGrid();
         })
 
-        .then((JSONProductos) => {
-            for (const prod of JSONProductos) {
-                aProductos.push(new Productos(prod));
-            }
-        })
         //La promesa devuelve un error
         .catch((error) => {
             Swal.fire({
@@ -68,12 +66,6 @@ function loadingProducts() {
                 timer: 4000,
             });
         });
-
-    /*for (const prod of products) {
-        //Cargamos todos los productos en un array
-        aProductos.push(new Productos(prod));
-    }
-    */
 }
 
 function loadingCart() {
@@ -396,7 +388,7 @@ function finishedPurchase() {
                 cancelButtonText: "No",
                 confirmButtonColor: "#337cae",
                 cancelButtonColor: "#ff8800",
-                confirmButtonText: "Sí!",
+                confirmButtonText: "Sí",
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire({
@@ -435,11 +427,13 @@ function main() {
         //Carga de Productos
         window.addEventListener("load", loadingProducts());
 
+        /*
         //Ingresamos el nombre del cliente
         inputNameUser();
 
         //Llenamos la grilla con los productos de forma dinámica
         loadingGrid();
+        */
 
         //Verificamos si hay productos en el carrito
         buyActive();
