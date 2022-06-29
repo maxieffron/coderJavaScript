@@ -397,7 +397,18 @@ function finishedPurchase() {
                         //iconColor: "#337cae",
                         confirmButtonColor: "#ff8800",
                         showCancelButton: false,
+                        showConfirmButton: false,
                     });
+
+                    //Una vez finalizada la compra, se cerramos la sesión y redireccionamos a la página principal
+                    const btnCerrarSession =
+                        document.getElementById("btnCloseSession");
+                    btnCerrarSession.remove();
+                    //Lo quitamos del storage
+                    localStorage.clear();
+                    setTimeout(() => {
+                        location.href = "../../index.html";
+                    }, 2000);
                 }
             });
         }
