@@ -24,11 +24,11 @@ function getUser() {
  *** Métodos correspondientes al manejo del carrito de compras ***
  *****************************************************************/
 
-function bexistProductCart(nameProducto) {
+function bexistProductCart(nameProduct) {
     /** Esta función indica si un producto está en array de los productos del carrito de compras **/
 
     const bExistProduct = aProductsCart.some(
-        (elem) => elem.nombre === nameProducto
+        (elem) => elem.nombre === nameProduct
     );
 
     return bExistProduct;
@@ -50,15 +50,15 @@ function updateProductsCart(idProdUpdate, bDeleteProduct, cantActual) {
     /******************************************************************************************************************
      * Esta función eliminará o actualizará el array de los productos que se van eliminando del carrito de compras y del localStorage ******************************************************************************************************************/
 
-    let indiceUpdate = 0;
-    let precioParcial = 0;
+    let updatedIndex = 0;
+    let partialPrice = 0;
 
     //1)Traigo del localStorage todos los productos del carrito
     aProductsCart = JSON.parse(localStorage.getItem("productos"));
 
     //2)Buscamos dentro del array el objeto del producto que estoy quitando del carrito
     const prodUpdate = aProductsCart.find((elem, index) => {
-        indiceUpdate = index;
+        updatedIndex = index;
         return elem.idProducto == idProdUpdate;
     });
 
@@ -66,28 +66,21 @@ function updateProductsCart(idProdUpdate, bDeleteProduct, cantActual) {
     //la operación que eligió el usuario
 
     if (bDeleteProduct) {
-        //4)Precio Parcial (Cantidad * Precio)
-        /*aProductsCart[indiceUpdate].precioParcial =
-            aProductsCart[indiceUpdate].precio *
-            aProductsCart[indiceUpdate].cantidad;
-        precioParcial = aProductsCart[indiceUpdate].precioParcial;
-        */
-
-        aProductsCart.splice(indiceUpdate, 1);
+        aProductsCart.splice(updatedIndex, 1);
     } else {
         //Cantidad actual de un mismo producto en el carrito
-        aProductsCart[indiceUpdate].cantidad = cantActual;
+        aProductsCart[updatedIndex].cantidad = cantActual;
         //4)Precio Parcial (Cantidad * Precio)
-        aProductsCart[indiceUpdate].precioParcial =
-            aProductsCart[indiceUpdate].precio * cantActual;
-        precioParcial = aProductsCart[indiceUpdate].precioParcial;
+        aProductsCart[updatedIndex].precioParcial =
+            aProductsCart[updatedIndex].precio * cantActual;
+        partialPrice = aProductsCart[updatedIndex].precioParcial;
     }
 
     //5)Sobreescribimos el localStorage con el carrito, pero ya sin el producto
     localStorage.setItem("productos", JSON.stringify(aProductsCart));
 
     //Devolvemos el importe parcial para reflejarlo en pantalla
-    return precioParcial;
+    return partialPrice;
 }
 
 function createButtonCloseSession() {
@@ -107,9 +100,9 @@ function createButtonCloseSession() {
 function dieSession(siteIndex) {
     /* Esta función quita el botón de "Cerrar Sesión" y elimina el usario del localStorage */
 
-    const btnCerrarSession = document.getElementById("btnCloseSession");
+    const buttonCloseSession = document.getElementById("btnCloseSession");
 
-    btnCerrarSession.addEventListener("click", () => {
+    buttonCloseSession.addEventListener("click", () => {
         //Confirmamos o no si cerramos la sesión
         Swal.fire({
             title: "¿Realmente desea cerrar la sesión?",
@@ -131,7 +124,7 @@ function dieSession(siteIndex) {
                     showConfirmButton: false,
                 });
 
-                btnCerrarSession.remove();
+                buttonCloseSession.remove();
 
                 //Lo quitamos del storage
                 localStorage.clear();

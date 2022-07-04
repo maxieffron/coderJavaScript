@@ -23,21 +23,21 @@ function login() {
             imageAlt: "Logo Dalet Design",
             confirmButtonText: "Ingresar",
             confirmButtonColor: "#337cae",
-            inputValidator: (nombreCliente) => {
+            inputValidator: (clientName) => {
                 // Si el valor es válido, debes regresar undefined. Si no, una cadena
-                if (!nombreCliente) {
+                if (!clientName) {
                     return "Por favor escribe tu nombre";
                 }
                 Swal.fire({
                     imageUrl: "./assets/images/logo_DaletDesign.png",
                     imageWidth: 200,
                     imageHeight: 200,
-                    title: `Hola, ${nombreCliente}!!`,
+                    title: `Hola, ${clientName}!!`,
                     text: "Ingresando a nuestro shopping...",
                     showConfirmButton: false,
                 });
                 setTimeout(() => {
-                    setUser(nombreCliente); //Guardamos el usuario en el localStorage
+                    setUser(clientName); //Guardamos el usuario en el localStorage
                     createButtonCloseSession();
                     location.href = "./assets/pages/products.html";
                 }, 3000);
