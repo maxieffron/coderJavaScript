@@ -1,0 +1,23 @@
+#container{
+    display: flex;
+    width:90%;
+    border:1px solid blue;
+    border-radius: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    padding:2%;
+    margin-top:5%;
+}
+
+.forms {
+    width:40%;
+    margin-left: auto;
+    margin-right: auto;
+    padding:2%;
+
+}
+
+#registro
+{
+    border-right: 1px solid blue;
+}

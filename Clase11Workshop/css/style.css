@@ -1,0 +1,159 @@
+#mainContainer
+{
+    width:95vw;
+    border:1px solid black;
+    margin:1%;
+    min-height: 85vh;
+    border-radius: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+#header{
+    background-color: black;
+    color:white;
+    min-height: 30px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding:1%;
+
+}
+.modeBtn{
+    padding:10px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+#toDarkMode{
+    background-color: white;
+    color:black;
+}
+
+#mode.dark, #toLigthMode{
+    background-color: black;
+    color:white;
+}
+
+#header.dark  {
+    background-color: white;
+    color:black;
+}
+#content{
+    background-color: white;
+    color:black;
+    min-height: 80vh;
+    max-height: 80vh;
+    overflow: scroll;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    display: flex;
+    padding: 2%;
+   
+}
+
+#content.dark{
+    background-color: black;
+    color:white;
+}
+
+.hidden{
+    display:none;
+}
+#store{
+    width:80%;
+    overflow-y: scroll;
+    border-right: 1px solid grey;
+}
+#categoryMenu{
+    border-bottom: 1px solid grey;
+    padding-bottom:2%;
+}
+.catBtn{
+    border-radius: 20px;
+    padding:1%;
+    cursor: pointer;
+    margin-left:2%;
+    text-transform: capitalize;
+}
+
+#productList{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cartList{
+    width:20%;
+}
+
+.product{
+    width:180px;
+    border:1px solid grey;
+    border-radius: 20px;
+    padding:2%;
+    margin-left: 2%;
+    margin-top: 2%;
+    text-align: center;
+}
+
+.product img{
+    width:90%;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+.productInfo, .prod{
+    margin-top:10px;
+
+}
+
+.addToList{
+    margin-top:10px;
+    border-radius: 20px;
+    padding:2%;
+    width:100%;
+    background-color:cornflowerblue;
+    color: white;
+    cursor:pointer;
+}
+#cartList {
+    width:20%;
+}
+.productInList, #cartList {
+    padding:2%;
+}
+.productInList{
+    display:flex;
+    
+    margin-top:2%;
+    border-bottom:1px solid grey;
+}
+.productInList .productImg{
+    
+    width: 30%;
+    text-align: center;
+}
+.productImg img{
+    width:50%;
+}
+.productInList .productName{
+    width:60%;
+    margin-left: 3%;
+}
+
+.productInList .productPrice{
+    width:30%;
+    margin-left: 3%;
+    text-align: right;
+}
+
+#total{
+    margin-top:5%;
+    border:1px solid grey;
+    text-align: center;
+    width: 100%;
+    margin-left: auto;
+    margin-right:auto;
+    font-weight: bold;
+    padding: 2%;
+}
